@@ -4,6 +4,8 @@ import android.view.View;
 
 import com.application.dev.david.coolorsapp.data.ColorsRepository;
 
+import java.util.ArrayList;
+
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -20,10 +22,14 @@ public class ColorGridPresenter {
     }
 
     public void retrieveData() {
-        Disposable disposable = respository.getColors()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.computation())
-                .subscribe(view::onColorGrid,
-                        error -> view.onColorGridError(error.getMessage()));
+        Disposable disposable =
+                Observable.just("")
+                        .subscribeOn(Schedulers.newThread())
+                        .flatMap(_1 -> respository.getColors())
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .flatMap(list -> Observable.fromIterable(list).map(item -> "#" + item).toList().toObservable())
+                        .subscribe(view::onColorGrid,
+                            error -> view.onColorGridError(error.getMessage()));
     }
 }

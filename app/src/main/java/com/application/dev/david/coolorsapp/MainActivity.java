@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,10 +18,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.application.dev.david.coolorsapp.data.ColorsRepository.COOLORS_BASE_URL;
+//powered by https://www.colourlovers.com/api/palettes/random
+
 public class MainActivity extends AppCompatActivity implements ColorGridView {
     private ColorGridPresenter presenter;
     @BindView(R.id.coolorsContainerLayoutId)
     LinearLayout colorContainerLayout;
+    @BindView(R.id.toolbarId)
+    Toolbar toolbar;
 
 
     @Override
@@ -29,10 +35,16 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("bllbalalall");
+
         presenter = new ColorGridPresenter(this, new ColorsRepository());
         onInitView();
     }
 
+    /**
+     * init view
+     */
     private void onInitView() {
         presenter.retrieveData();
 
@@ -44,9 +56,6 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
                     return true;
                 case R.id.navigation_dashboard:
 //                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-//                    mTextMessage.setText(R.string.title_notifications);
                     return true;
             }
             return false;
@@ -65,16 +74,14 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
 
     @Override
     public void onColorGridError(String error) {
-
     }
 
     /**
      *
      * @param box
-     * @param color
+     * @param hexColor
      */
-    private void initBox(TextView box, String color) {
-        String hexColor = Utils.parseColorFromRGB(color);
+    private void initBox(TextView box, String hexColor) {
         box.setBackgroundColor(Color.parseColor(hexColor));
         box.setText(hexColor);
     }

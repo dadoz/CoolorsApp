@@ -20,6 +20,7 @@ ext {
     espressoVersion = '2.2.2'
     butterknifeVersion = '8.8.1'
     constraintVersion = '1.1.2'
+    jsoupVersion = '1.11.3'
 }
 
 buildscript {
