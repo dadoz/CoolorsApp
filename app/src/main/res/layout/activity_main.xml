@@ -24,60 +24,12 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <LinearLayout
-            android:id="@+id/coolorsContainerLayoutId"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/colorGridViewPagerId"
             android:layout_marginBottom="?attr/actionBarSize"
-            app:layout_constraintBottom_toTopOf="@+id/navigation">
 
-            <TextView
-                android:id="@+id/coolorsBox1Id"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/amatic_sc_bold"
-                android:gravity="center"
-                android:textSize="36sp"
-                tools:text="#5500aa" />
-
-            <TextView
-                android:id="@+id/coolorsBox2Id"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/amatic_sc_bold"
-                android:gravity="center"
-                android:textSize="36sp" />
-
-            <TextView
-                android:id="@+id/coolorsBox3Id"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/amatic_sc_bold"
-                android:gravity="center"
-                android:textSize="36sp" />
-
-            <TextView
-                android:id="@+id/coolorsBox4Id"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/amatic_sc_bold"
-                android:gravity="center"
-                android:textSize="36sp" />
-
-            <TextView
-                android:id="@+id/coolorsBox5Id"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/amatic_sc_bold"
-                android:gravity="center"
-                android:textSize="36sp" />
-        </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
             android:layout_width="0dp"

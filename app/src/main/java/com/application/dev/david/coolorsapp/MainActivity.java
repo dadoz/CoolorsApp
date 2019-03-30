@@ -3,14 +3,17 @@ package com.application.dev.david.coolorsapp;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.application.dev.david.coolorsapp.data.ColorsRepository;
 import com.application.dev.david.coolorsapp.modules.colorGrid.ColorGridPresenter;
 import com.application.dev.david.coolorsapp.modules.colorGrid.ColorGridView;
+import com.application.dev.david.coolorsapp.modules.colorGrid.adapter.ColorGridPagerAdapter;
 import com.application.dev.david.coolorsapp.utils.Utils;
 
 import java.util.List;
@@ -23,8 +26,8 @@ import static com.application.dev.david.coolorsapp.data.ColorsRepository.COOLORS
 
 public class MainActivity extends AppCompatActivity implements ColorGridView {
     private ColorGridPresenter presenter;
-    @BindView(R.id.coolorsContainerLayoutId)
-    LinearLayout colorContainerLayout;
+    @BindView(R.id.colorGridViewPagerId)
+    ViewPager colorGridViewPager;
     @BindView(R.id.toolbarId)
     Toolbar toolbar;
 
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("bllbalalall");
+        getSupportActionBar().setTitle(getString(R.string.app_name));
 
         presenter = new ColorGridPresenter(this, new ColorsRepository());
         onInitView();
@@ -47,6 +50,21 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
      */
     private void onInitView() {
         presenter.retrieveData();
+        colorGridViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                //retrieve new data
+                presenter.retrieveData();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(item -> {
@@ -65,25 +83,11 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
 
     @Override
     public void onColorGrid(List<String> list) {
-        int index = 0;
-        for (String color : list) {
-            initBox((TextView) colorContainerLayout.getChildAt(index), color);
-            index ++;
-        }
+        colorGridViewPager.setAdapter(new ColorGridPagerAdapter(list));
     }
 
     @Override
     public void onColorGridError(String error) {
-    }
-
-    /**
-     *
-     * @param box
-     * @param hexColor
-     */
-    private void initBox(TextView box, String hexColor) {
-        box.setBackgroundColor(Color.parseColor(hexColor));
-        box.setText(hexColor);
     }
 
 }

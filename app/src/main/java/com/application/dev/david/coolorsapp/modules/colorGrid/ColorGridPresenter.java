@@ -29,6 +29,7 @@ public class ColorGridPresenter {
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .flatMap(list -> Observable.fromIterable(list).map(item -> "#" + item).toList().toObservable())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(view::onColorGrid,
                             error -> view.onColorGridError(error.getMessage()));
     }

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import io.reactivex.Observable;
 
@@ -22,19 +23,26 @@ public class ColorsRepository implements ColorsDataSource {
 
     public Observable<List<String>> getColors() {
         ArrayList<String> list = new ArrayList<>();
-        mock2(list);
-//        try {
-//            String html = Jsoup.connect(COOLORS_BASE_URL).get().html();
-//            Document doc = Jsoup.parse(html, "", Parser.xmlParser());
-//            Elements els = doc.getElementsByTag("hex");
-//            for (Element element : els) {
-//                list.add(element.html());
-//                Log.e(getClass().getName(), element.html());
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            String html = Jsoup.connect(COOLORS_BASE_URL).get().html();
+            Document doc = Jsoup.parse(html, "", Parser.xmlParser());
+            Elements els = doc.getElementsByTag("hex");
+            for (Element element : els) {
+                list.add(element.html());
+                Log.e(getClass().getName(), element.html());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return Observable.just(list);
+    }
+
+    private void mock3(ArrayList<String> list) {
+        list.add("3F51B1");
+        list.add("550033");
+        list.add("FFD9aa");
+        list.add("ECECcc");
+        list.add("FFFF00");
     }
 
     private void mock2(ArrayList<String> list) {
