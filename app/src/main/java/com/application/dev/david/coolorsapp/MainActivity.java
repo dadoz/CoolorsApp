@@ -1,27 +1,23 @@
 package com.application.dev.david.coolorsapp;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.View;
 
 import com.application.dev.david.coolorsapp.data.ColorsRepository;
 import com.application.dev.david.coolorsapp.modules.colorGrid.ColorGridPresenter;
 import com.application.dev.david.coolorsapp.modules.colorGrid.ColorGridView;
 import com.application.dev.david.coolorsapp.modules.colorGrid.adapter.ColorGridPagerAdapter;
-import com.application.dev.david.coolorsapp.utils.Utils;
-
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.application.dev.david.coolorsapp.data.ColorsRepository.COOLORS_BASE_URL;
 //powered by https://www.colourlovers.com/api/palettes/random
 
 public class MainActivity extends AppCompatActivity implements ColorGridView {
@@ -30,7 +26,8 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
     ViewPager colorGridViewPager;
     @BindView(R.id.toolbarId)
     Toolbar toolbar;
-
+    @BindView(R.id.container)
+    View container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +55,10 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
             @Override
             public void onPageSelected(int i) {
                 //retrieve new data
-                presenter.retrieveData();
+                if (colorGridViewPager.getAdapter() == null ||
+                        ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).getColorList(i).size() < 5) {
+                    presenter.retrieveData();
+                }
             }
 
             @Override
@@ -70,10 +70,8 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
         navigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-//                    mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_dashboard:
-//                    mTextMessage.setText(R.string.title_dashboard);
                     return true;
             }
             return false;
@@ -83,11 +81,17 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
 
     @Override
     public void onColorGrid(List<String> list) {
-        colorGridViewPager.setAdapter(new ColorGridPagerAdapter(list));
+        if (colorGridViewPager.getAdapter() == null)
+            colorGridViewPager.setAdapter(new ColorGridPagerAdapter(list));
+        else {
+            ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).setColorList(list,
+                    colorGridViewPager.getCurrentItem(), colorGridViewPager.getChildAt(0));
+        }
     }
 
     @Override
     public void onColorGridError(String error) {
+        Log.e(getClass().getName(), error);
+        Snackbar.make(container, error, Snackbar.LENGTH_SHORT).show();
     }
-
 }

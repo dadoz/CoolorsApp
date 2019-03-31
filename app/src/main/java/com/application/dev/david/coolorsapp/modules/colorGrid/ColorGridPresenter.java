@@ -1,5 +1,6 @@
 package com.application.dev.david.coolorsapp.modules.colorGrid;
 
+import android.util.Log;
 import android.view.View;
 
 import com.application.dev.david.coolorsapp.data.ColorsRepository;
@@ -29,6 +30,7 @@ public class ColorGridPresenter {
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .flatMap(list -> Observable.fromIterable(list).map(item -> "#" + item).toList().toObservable())
+                        .doOnError(Throwable::printStackTrace)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(view::onColorGrid,
                             error -> view.onColorGridError(error.getMessage()));

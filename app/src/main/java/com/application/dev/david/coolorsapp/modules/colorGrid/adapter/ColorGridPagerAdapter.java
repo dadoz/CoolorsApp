@@ -12,28 +12,36 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.application.dev.david.coolorsapp.R;
+import com.application.dev.david.coolorsapp.models.ColorGrid;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ColorGridPagerAdapter extends PagerAdapter {
     private static final int PAGER_SIZE = 20;
-    private List<String> items;
-
+    private List<ColorGrid> items = new ArrayList<>();
 
     public ColorGridPagerAdapter(List<String> list) {
-        this.items = list;
+        for (int i = 0; i < PAGER_SIZE; i ++) {
+            ColorGrid colorGrid = new ColorGrid();
+            colorGrid.setColorList(new ArrayList());
+            items.add(colorGrid);
+        }
+        items.get(0).setColorList(list);
     }
 
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.color_grid_view, container, false);
+        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.color_grid_view,
+                container, false);
         container.addView(view);
-        initView(view);
+        initView(view, position);
         return view;
     }
 
-    private void initView(View view) {
+    private void initView(View view, int position) {
         RecyclerView recyclerView = (RecyclerView) view;
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -48,23 +56,15 @@ public class ColorGridPagerAdapter extends PagerAdapter {
 
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                ((TextView) viewHolder.itemView).setText(items.get(i));
-                viewHolder.itemView.setBackgroundColor(Color.parseColor(items.get(i)));
+                ((TextView) viewHolder.itemView).setText(items.get(position).getColorList().get(i));
+                viewHolder.itemView.setBackgroundColor(Color.parseColor(items.get(position).getColorList().get(i)));
             }
 
             @Override
             public int getItemCount() {
-                return items.size();
+                return items.get(position).getColorList().size();
             }
         });
-
-//        int index = 0;
-//        for (String hexColor : items) {
-//            TextView box = (TextView) ((ViewGroup) view.findViewById(R.id.coolorsContainerLayoutId)).getChildAt(index);
-//            box.setBackgroundColor(Color.parseColor(hexColor));
-//            box.setText(hexColor);
-//            index ++;
-//        }
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ColorGridPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return PAGER_SIZE;
+        return items.size();
     }
 
     @Override
@@ -82,8 +82,13 @@ public class ColorGridPagerAdapter extends PagerAdapter {
         return view == o;
     }
 
+    public void setColorList(List<String> list, int position, View focusedChild) {
+        items.get(position).setColorList(list);
+        if (focusedChild != null)
+            ((RecyclerView) focusedChild).getAdapter().notifyDataSetChanged();
+    }
 
-    public void setItems(List<String> list) {
-        this.items = list;
+    public List getColorList(int position) {
+        return items.get(position).getColorList();
     }
 }
