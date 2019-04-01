@@ -1,9 +1,11 @@
 package com.application.dev.david.coolorsapp.modules.colorGrid.adapter;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.application.dev.david.coolorsapp.R;
 import com.application.dev.david.coolorsapp.models.ColorGrid;
+import com.application.dev.david.coolorsapp.utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,8 +59,10 @@ public class ColorGridPagerAdapter extends PagerAdapter {
 
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                ((TextView) viewHolder.itemView).setText(items.get(position).getColorList().get(i));
-                viewHolder.itemView.setBackgroundColor(Color.parseColor(items.get(position).getColorList().get(i)));
+                String color = items.get(position).getColorList().get(i);
+                ((TextView) viewHolder.itemView).setText(color);
+                ((TextView) viewHolder.itemView).setTextColor(ColorUtils.lighten(Color.parseColor(color), 0.6f));
+                viewHolder.itemView.setBackgroundColor(Color.parseColor(color));
             }
 
             @Override

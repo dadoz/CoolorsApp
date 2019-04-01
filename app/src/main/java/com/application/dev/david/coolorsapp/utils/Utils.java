@@ -7,4 +7,5 @@ public class Utils {
                 Integer.parseInt(rgbColorChunk[1].trim()),
                 Integer.parseInt(rgbColorChunk[2].split("\\)")[0].trim()));
     }
+
 }
