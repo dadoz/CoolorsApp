@@ -11,7 +11,7 @@ ext {
     retrofitVersion = '2.2.0'
     okhttpVersion = '3.10.0'
     rxjavaVersion = '2.0.2'
-    glideVersion = '3.7.0'
+    glideVersion = '4.9.0'
     gsonVersion = '2.8.0'
     mockwebserverVersion = '3.6.0'
     glassfishannotationVersion = '10.0-b28'

@@ -1,14 +1,8 @@
-package com.application.dev.david.coolorsapp.modules.colorGrid;
-
-import android.util.Log;
-import android.view.View;
+package com.application.dev.david.coolorsapp.modules.colorPalette;
 
 import com.application.dev.david.coolorsapp.data.ColorsRepository;
 
-import java.util.ArrayList;
-
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;

@@ -1,8 +1,7 @@
-package com.application.dev.david.coolorsapp.modules.colorGrid.adapter;
+package com.application.dev.david.coolorsapp.modules.colorPalette.adapter;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package com.application.dev.david.coolorsapp.modules.colorGrid;
+package com.application.dev.david.coolorsapp.modules.colorPalette;
 
 import java.util.List;
 

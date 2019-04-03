@@ -1,29 +1,22 @@
-package com.application.dev.david.coolorsapp.modules.colorGrid.adapter;
+package com.application.dev.david.coolorsapp.modules.colorPalette.adapter;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.application.dev.david.coolorsapp.R;
 import com.application.dev.david.coolorsapp.models.ColorGrid;
 import com.application.dev.david.coolorsapp.utils.ColorUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ColorGridPagerAdapter extends PagerAdapter {

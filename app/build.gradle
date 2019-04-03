@@ -63,6 +63,7 @@ dependencies {
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
+
     implementation "org.jsoup:jsoup:$jsoupVersion"
     //test junit
     testImplementation "junit:junit:$junitVersion"

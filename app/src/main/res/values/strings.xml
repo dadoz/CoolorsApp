@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Cooolor pick</string>
-    <string name="title_home">Random</string>
-    <string name="title_dashboard">Saved</string>
+    <string name="title_home">Colors</string>
+    <string name="title_dashboard">Saved List</string>
 </resources>

@@ -10,5 +10,6 @@
     <!-- styles.xml -->
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:fontFamily">@font/amatic_sc_bold</item>
+        <item name="android:textColor">@color/colorPrimaryBlue</item>
     </style>
 </resources>
