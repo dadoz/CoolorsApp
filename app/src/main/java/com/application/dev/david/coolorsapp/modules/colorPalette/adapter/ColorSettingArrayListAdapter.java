@@ -53,6 +53,8 @@ public class ColorSettingArrayListAdapter extends ArrayAdapter<String> {
             case 2:
                 return R.drawable.ic_share;
             case 3:
+                return R.drawable.ic_delete;
+            case 4:
                 return R.drawable.ic_elephant;
             default:
                 return R.drawable.ic_potions;

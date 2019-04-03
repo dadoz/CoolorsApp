@@ -58,7 +58,7 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
     //TODO move smwhere else
     private final static String USERNAME = "david";
-    private List settingList = Arrays.asList("Pin list", "Lock color", "Share list", "About and sources");
+    private List settingList = Arrays.asList("Pin Palette", "Lock Color", "Share Palette", "Delete Palette", "About and sources");
     private SharedPreferences sharedPre;
 
     //SharedPref
@@ -145,16 +145,17 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     private void updateColorSettingsView(int position) {
             int selectedColor = Color.parseColor(((ColorGridPagerAdapter) colorGridViewPager.getAdapter())
                     .getColorList(colorGridViewPager.getCurrentItem()).get(position));
+            int selectedDarkColor = ColorUtils.darken(selectedColor, 0.3f);
             bottomSheetBeh.setState(BottomSheetBehavior.STATE_EXPANDED);
             colorUserTextView.setText(USERNAME);
-            colorUserTextView.setTextColor(ColorUtils.darken(selectedColor, 0.3f));
+            colorUserTextView.setTextColor(selectedColor);
             Glide.with(getActivity().getApplicationContext())
                     .load("https://api.adorable.io/avatars/" + USERNAME)
                     .circleCrop()
                     .into(colorUserImageView);
-            colorSettingSeparatorView.setBackgroundColor(ColorUtils.darken(selectedColor, 0.3f));
+            colorSettingSeparatorView.setBackgroundColor(selectedColor);
             colorSettingListView.setAdapter(new ColorSettingArrayListAdapter(getContext(), R.layout.color_setting_item,
-                    settingList, selectedColor));
+                    settingList, selectedDarkColor));
     }
 
     @Override
