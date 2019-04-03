@@ -2,6 +2,8 @@ package com.application.dev.david.coolorsapp.modules.colorGrid.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
@@ -11,7 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.dev.david.coolorsapp.R;
 import com.application.dev.david.coolorsapp.models.ColorGrid;
@@ -23,15 +28,17 @@ import java.util.List;
 
 public class ColorGridPagerAdapter extends PagerAdapter {
     private static final int PAGER_SIZE = 20;
+    private final OnOptionItemClickListener listener;
     private List<ColorGrid> items = new ArrayList<>();
 
-    public ColorGridPagerAdapter(List<String> list) {
+    public ColorGridPagerAdapter(List<String> list, OnOptionItemClickListener lst) {
         for (int i = 0; i < PAGER_SIZE; i ++) {
             ColorGrid colorGrid = new ColorGrid();
             colorGrid.setColorList(new ArrayList());
             items.add(colorGrid);
         }
         items.get(0).setColorList(list);
+        this.listener = lst;
     }
 
     @NonNull
@@ -60,8 +67,10 @@ public class ColorGridPagerAdapter extends PagerAdapter {
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 String color = items.get(position).getColorList().get(i);
-                ((TextView) viewHolder.itemView).setText(color);
-                ((TextView) viewHolder.itemView).setTextColor(ColorUtils.lighten(Color.parseColor(color), 0.6f));
+                ((TextView) viewHolder.itemView.findViewById(R.id.colorTextViewId)).setText(color);
+                ((TextView) viewHolder.itemView.findViewById(R.id.colorTextViewId)).setTextColor(ColorUtils.lighten(Color.parseColor(color), 0.6f));
+                ((ImageView) viewHolder.itemView.findViewById(R.id.colorImageViewId)).setColorFilter(ColorUtils.lighten(Color.parseColor(color), 0.6f), PorterDuff.Mode.SRC_ATOP);
+                (viewHolder.itemView.findViewById(R.id.colorImageViewId)).setOnClickListener(v -> listener.onOptionClick(v, i));
                 viewHolder.itemView.setBackgroundColor(Color.parseColor(color));
             }
 
@@ -93,7 +102,11 @@ public class ColorGridPagerAdapter extends PagerAdapter {
             ((RecyclerView) focusedChild).getAdapter().notifyDataSetChanged();
     }
 
-    public List getColorList(int position) {
+    public List<String> getColorList(int position) {
         return items.get(position).getColorList();
+    }
+
+    public interface OnOptionItemClickListener {
+        void onOptionClick(View v, int postion);
     }
 }

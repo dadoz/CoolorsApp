@@ -1,18 +1,37 @@
 package com.application.dev.david.coolorsapp;
 
+import android.content.Context;
+import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.dev.david.coolorsapp.data.ColorsRepository;
 import com.application.dev.david.coolorsapp.modules.colorGrid.ColorGridPresenter;
 import com.application.dev.david.coolorsapp.modules.colorGrid.ColorGridView;
 import com.application.dev.david.coolorsapp.modules.colorGrid.adapter.ColorGridPagerAdapter;
+import com.application.dev.david.coolorsapp.modules.colorGrid.adapter.ColorSettingArrayListAdapter;
+import com.application.dev.david.coolorsapp.utils.ColorUtils;
+
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,6 +47,18 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
     Toolbar toolbar;
     @BindView(R.id.container)
     View container;
+    @BindView(R.id.colorSettingListViewId)
+    ListView colorSettingListView;
+    @BindView(R.id.colorUserTextViewId)
+    TextView colorUserTextView;
+    @BindView(R.id.colorUserImageViewId)
+    ImageView colorUserImageView;
+    @BindView(R.id.colorSettingSeparatorViewId)
+    View colorSettingSeparatorView;
+    @BindView(R.id.colorSettingMenuCardViewId)
+    View colorSettingMenuCardView;
+    List settingList = Arrays.asList("Pin list", "Lock color", "Share list", "About and sources");
+    private BottomSheetBehavior<View> bottomSheetBeh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +108,24 @@ public class MainActivity extends AppCompatActivity implements ColorGridView {
             return false;
 
         });
+
+        bottomSheetBeh = BottomSheetBehavior.from(colorSettingMenuCardView);
     }
 
     @Override
     public void onColorGrid(List<String> list) {
         if (colorGridViewPager.getAdapter() == null)
-            colorGridViewPager.setAdapter(new ColorGridPagerAdapter(list));
+            colorGridViewPager.setAdapter(new ColorGridPagerAdapter(list,
+                    (v, postion) -> {
+                        int selectedColor = Color.parseColor(((ColorGridPagerAdapter) colorGridViewPager.getAdapter())
+                                .getColorList(colorGridViewPager.getCurrentItem()).get(postion));
+                        bottomSheetBeh.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        colorUserTextView.setText("davide bla");
+                        colorUserTextView.setTextColor(ColorUtils.darken(selectedColor, 0.3f));
+                        colorSettingSeparatorView.setBackgroundColor(ColorUtils.darken(selectedColor, 0.3f));
+                        colorSettingListView.setAdapter(new ColorSettingArrayListAdapter(this, R.layout.color_setting_item,
+                                settingList, selectedColor));
+                    }));
         else {
             ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).setColorList(list,
                     colorGridViewPager.getCurrentItem(), colorGridViewPager.getChildAt(0));
