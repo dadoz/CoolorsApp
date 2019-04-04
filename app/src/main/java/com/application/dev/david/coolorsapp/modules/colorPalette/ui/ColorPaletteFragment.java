@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.card.MaterialCardView;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.application.dev.david.coolorsapp.R;
 import com.application.dev.david.coolorsapp.data.ColorsRepository;
+import com.application.dev.david.coolorsapp.models.ColorPalette;
 import com.application.dev.david.coolorsapp.modules.colorPalette.ColorGridPresenter;
 import com.application.dev.david.coolorsapp.modules.colorPalette.ColorGridView;
 import com.application.dev.david.coolorsapp.modules.colorPalette.adapter.ColorGridPagerAdapter;
@@ -29,9 +31,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,58 +84,46 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
      * init view
      */
     private void onInitView() {
+        bottomSheetBeh = BottomSheetBehavior.from(colorSettingMenuCardView);
         colorGridViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
+
             }
 
             @Override
             public void onPageSelected(int i) {
-                //load from shared
-                if (sharedPre.contains(COLORS_SHARED_PREF_KEY + i)) {
-                    Set<String> colorSet = sharedPre.getStringSet(COLORS_SHARED_PREF_KEY + i, null);
-                    List colorList = new ArrayList();
-                    colorList.addAll(colorSet);
-                    onColorGrid(colorList);
-                    return;
-                }
-
-                //retrieve new data
-                if (colorGridViewPager.getAdapter() == null ||
-                        ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).getColorList(i).size() < 5) {
-                    presenter.retrieveData();
-                }
+                presenter.retrieveData();
             }
 
             @Override
             public void onPageScrollStateChanged(int i) {
+
             }
         });
 
-        bottomSheetBeh = BottomSheetBehavior.from(colorSettingMenuCardView);
-
-        if (sharedPre.contains(COLORS_SHARED_PREF_KEY + 0)) {
-            Set<String> colorSet = sharedPre.getStringSet(COLORS_SHARED_PREF_KEY + 0, null);
-            List colorList = new ArrayList();
-            colorList.addAll(colorSet);
-            onColorGrid(colorList);
-            return;
-        }
         presenter.retrieveData();
+
+//        if (sharedPre.contains(COLORS_SHARED_PREF_KEY + 0)) {
+//            Set<String> colorSet = sharedPre.getStringSet(COLORS_SHARED_PREF_KEY + 0, null);
+//            List colorList = new ArrayList();
+//            colorList.addAll(colorSet);
+//            onColorGrid(colorList);
+//            return;
+//        }
     }
 
     @Override
-    public void onColorGrid(List<String> list) {
-        int index = 0;
-        if (colorGridViewPager.getAdapter() == null) {
+    public void onColorGrid(List<ColorPalette> list) {
+        if (colorGridViewPager.getAdapter() == null)
             colorGridViewPager.setAdapter(new ColorGridPagerAdapter(list,
                     (v, position) -> updateColorSettingsView(position)));
-        } else {
-            index = colorGridViewPager.getCurrentItem();
-            ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).setColorList(list,
-                    index, colorGridViewPager.getChildAt(index));
+        else {
+            ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).setItems(list);
+            colorGridViewPager.getAdapter().notifyDataSetChanged();
         }
-        sharedPre.edit().putStringSet(COLORS_SHARED_PREF_KEY + index, new HashSet<>(list)).commit();
+
+//        sharedPre.edit().putStringSet(COLORS_SHARED_PREF_KEY + index, new HashSet<>(list)).commit();
     }
 
     /**
@@ -145,17 +133,18 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     private void updateColorSettingsView(int position) {
             int selectedColor = Color.parseColor(((ColorGridPagerAdapter) colorGridViewPager.getAdapter())
                     .getColorList(colorGridViewPager.getCurrentItem()).get(position));
-            int selectedDarkColor = ColorUtils.darken(selectedColor, 0.3f);
+            int selectedLightColor = ColorUtils.darken(selectedColor, 1f);
+            ((MaterialCardView) colorSettingMenuCardView).setCardBackgroundColor(selectedColor);
             bottomSheetBeh.setState(BottomSheetBehavior.STATE_EXPANDED);
             colorUserTextView.setText(USERNAME);
-            colorUserTextView.setTextColor(selectedColor);
+            colorUserTextView.setTextColor(selectedLightColor);
             Glide.with(getActivity().getApplicationContext())
                     .load("https://api.adorable.io/avatars/" + USERNAME)
                     .circleCrop()
                     .into(colorUserImageView);
-            colorSettingSeparatorView.setBackgroundColor(selectedColor);
+            colorSettingSeparatorView.setBackgroundColor(selectedLightColor);
             colorSettingListView.setAdapter(new ColorSettingArrayListAdapter(getContext(), R.layout.color_setting_item,
-                    settingList, selectedDarkColor));
+                    settingList, selectedLightColor));
     }
 
     @Override

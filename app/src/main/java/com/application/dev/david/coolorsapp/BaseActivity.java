@@ -45,11 +45,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param fragment
+     */
     private void loadFragment(Fragment fragment) {
-        // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.colorFragmentContainerId, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
