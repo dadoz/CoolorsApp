@@ -49,7 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @param fragment
      */
-    private void loadFragment(Fragment fragment) {
+    protected void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.colorFragmentContainerId, fragment);
         transaction.commit();

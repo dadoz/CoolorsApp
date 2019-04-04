@@ -47,6 +47,7 @@ public class ColorGridPagerAdapter extends PagerAdapter {
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                 View view1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.color_grid_item,
                         viewGroup, false);
+                view1.getLayoutParams().height = viewGroup.getHeight() / 5;
                 return new RecyclerView.ViewHolder(view1) {};
             }
 
@@ -80,12 +81,6 @@ public class ColorGridPagerAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
         return view == o;
-    }
-
-    public void setColorList(List<String> list, int position, View focusedChild) {
-        items.get(position).setColorList(list);
-        if (focusedChild != null)
-            ((RecyclerView) focusedChild).getAdapter().notifyDataSetChanged();
     }
 
     public List<String> getColorList(int position) {
