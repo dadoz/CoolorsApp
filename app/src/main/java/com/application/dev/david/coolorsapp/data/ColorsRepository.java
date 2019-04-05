@@ -17,8 +17,7 @@ public class ColorsRepository {
     }
 
     public Observable<List<String>> getColors() {
-//        if (localDataSource.hasColors()) {
-        if (true) {
+        if (localDataSource.hasColors()) {
             return localDataSource.getColors();
         }
         return remoteDataSource.getColors();
