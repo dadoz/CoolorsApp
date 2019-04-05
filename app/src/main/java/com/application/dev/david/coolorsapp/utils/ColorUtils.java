@@ -28,6 +28,21 @@ public class ColorUtils {
         return Color.argb(alpha, red, green, blue);
     }
 
+    private static int getLuminance(int argb) {
+        int lum= (   77  * ((argb>>16)&255)
+                + 150 * ((argb>>8)&255)
+                + 29  * ((argb)&255))>>8;
+        return lum;
+    }
+
+    public static boolean isDark(int color) {
+        return 255 - getLuminance(color) > 10;
+    }
+
+    public static boolean isLight(int color) {
+        return getLuminance(color) < 10;
+    }
+
     private static int darkenColor(int color, double fraction) {
         return (int)Math.max(color - (color * fraction), 0);
     }

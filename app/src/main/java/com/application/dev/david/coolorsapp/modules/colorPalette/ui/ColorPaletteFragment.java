@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.application.dev.david.coolorsapp.R;
 import com.application.dev.david.coolorsapp.data.ColorsRepository;
+import com.application.dev.david.coolorsapp.data.local.LocalColorsStorage;
+import com.application.dev.david.coolorsapp.data.remote.RemoteColorsStorage;
 import com.application.dev.david.coolorsapp.models.ColorPalette;
 import com.application.dev.david.coolorsapp.modules.colorPalette.ColorGridPresenter;
 import com.application.dev.david.coolorsapp.modules.colorPalette.ColorGridView;
@@ -38,7 +40,6 @@ import butterknife.ButterKnife;
 
 
 public class ColorPaletteFragment extends Fragment implements ColorGridView {
-    private static final String COLORS_SHARED_PREF_KEY = "COOLORS_LIST_ID_";
     private ColorGridPresenter presenter;
     @BindView(R.id.colorGridViewPagerId)
     ViewPager colorGridViewPager;
@@ -59,9 +60,6 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     //TODO move smwhere else
     private final static String USERNAME = "david";
     private List settingList = Arrays.asList("Pin Palette", "Lock Color", "Share Palette", "Delete Palette", "About and sources");
-    private SharedPreferences sharedPre;
-
-    //SharedPref
 
     @Nullable
     @Override
@@ -75,8 +73,8 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter = new ColorGridPresenter(this, new ColorsRepository());
-        sharedPre = getContext().getSharedPreferences(getContext().getPackageName() + "_preferences", Context.MODE_PRIVATE);
+        presenter = new ColorGridPresenter(this, new ColorsRepository(new RemoteColorsStorage(),
+                new LocalColorsStorage()));
         onInitView();
     }
 
@@ -88,7 +86,6 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
         colorGridViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-
             }
 
             @Override
@@ -98,19 +95,10 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
             @Override
             public void onPageScrollStateChanged(int i) {
-
             }
         });
 
         presenter.retrieveData();
-
-//        if (sharedPre.contains(COLORS_SHARED_PREF_KEY + 0)) {
-//            Set<String> colorSet = sharedPre.getStringSet(COLORS_SHARED_PREF_KEY + 0, null);
-//            List colorList = new ArrayList();
-//            colorList.addAll(colorSet);
-//            onColorGrid(colorList);
-//            return;
-//        }
     }
 
     @Override
@@ -122,8 +110,6 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
             ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).setItems(list);
             colorGridViewPager.getAdapter().notifyDataSetChanged();
         }
-
-//        sharedPre.edit().putStringSet(COLORS_SHARED_PREF_KEY + index, new HashSet<>(list)).commit();
     }
 
     /**

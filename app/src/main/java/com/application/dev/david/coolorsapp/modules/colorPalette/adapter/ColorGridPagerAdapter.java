@@ -33,6 +33,10 @@ public class ColorGridPagerAdapter extends PagerAdapter {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.color_grid_view,
                 container, false);
         container.addView(view);
+
+        //trick to avoid empty page n2
+        if (position > 0)
+            position --;
         initView(view, position);
         return view;
     }
