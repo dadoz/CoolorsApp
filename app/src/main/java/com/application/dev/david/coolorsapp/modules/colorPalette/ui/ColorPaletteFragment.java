@@ -90,11 +90,12 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
             @Override
             public void onPageSelected(int i) {
-                presenter.retrieveData();
+
             }
 
             @Override
             public void onPageScrollStateChanged(int i) {
+                presenter.retrieveData();
             }
         });
 
@@ -135,7 +136,7 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
     @Override
     public void onColorGridError(String error) {
-        Log.e(getClass().getName(), error);
+        Log.e(getClass().getName(), "----" + error);
         Snackbar.make(container, error, Snackbar.LENGTH_SHORT).show();
     }
 }

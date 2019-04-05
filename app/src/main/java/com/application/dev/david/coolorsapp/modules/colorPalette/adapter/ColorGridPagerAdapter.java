@@ -35,8 +35,6 @@ public class ColorGridPagerAdapter extends PagerAdapter {
         container.addView(view);
 
         //trick to avoid empty page n2
-        if (position > 0)
-            position --;
         initView(view, position);
         return view;
     }
@@ -79,7 +77,7 @@ public class ColorGridPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return items.size() + 1;
+        return items.size();
     }
 
     @Override
