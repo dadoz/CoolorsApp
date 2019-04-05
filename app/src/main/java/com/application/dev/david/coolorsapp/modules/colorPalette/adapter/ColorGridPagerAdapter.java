@@ -89,8 +89,10 @@ public class ColorGridPagerAdapter extends PagerAdapter {
         return items.get(position).getColorList();
     }
 
-    public void setItems(List<ColorPalette> list) {
-        items = list;
+    public void setItems(int requestedPos, List<ColorPalette> list) {
+        if (items.size() > requestedPos)
+            items.remove(requestedPos);
+        items.addAll(requestedPos, list);
     }
 
     public interface OnOptionItemClickListener {

@@ -5,6 +5,6 @@ import com.application.dev.david.coolorsapp.models.ColorPalette;
 import java.util.List;
 
 public interface ColorGridView {
-    void onColorGrid(List<ColorPalette> list);
+    void onColorGrid(List<ColorPalette> list, int requestedPosition);
     void onColorGridError(String error);
 }

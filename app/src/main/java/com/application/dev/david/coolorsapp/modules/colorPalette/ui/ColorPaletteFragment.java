@@ -1,7 +1,5 @@
 package com.application.dev.david.coolorsapp.modules.colorPalette.ui;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,7 +29,6 @@ import com.application.dev.david.coolorsapp.modules.colorPalette.adapter.ColorSe
 import com.application.dev.david.coolorsapp.utils.ColorUtils;
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -90,25 +87,25 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
             @Override
             public void onPageSelected(int i) {
-
+                presenter.retrieveData(i +1);
             }
 
             @Override
             public void onPageScrollStateChanged(int i) {
-                presenter.retrieveData();
+
             }
         });
-
-        presenter.retrieveData();
+        presenter.retrieveData(0);
     }
 
     @Override
-    public void onColorGrid(List<ColorPalette> list) {
-        if (colorGridViewPager.getAdapter() == null)
+    public void onColorGrid(List<ColorPalette> list, int requestedPos) {
+        if (colorGridViewPager.getAdapter() == null) {
             colorGridViewPager.setAdapter(new ColorGridPagerAdapter(list,
                     (v, position) -> updateColorSettingsView(position)));
-        else {
-            ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).setItems(list);
+            presenter.retrieveData(requestedPos +1);
+        } else {
+            ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).setItems(requestedPos, list);
             colorGridViewPager.getAdapter().notifyDataSetChanged();
         }
     }
