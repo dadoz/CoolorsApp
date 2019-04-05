@@ -93,6 +93,11 @@ public class ColorGridPagerAdapter extends PagerAdapter {
         if (items.size() > requestedPos)
             items.remove(requestedPos);
         items.addAll(requestedPos, list);
+
+    }
+
+    public boolean hasItemsAtPosition(int i) {
+        return items.size() > i;
     }
 
     public interface OnOptionItemClickListener {

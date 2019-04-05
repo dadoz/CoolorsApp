@@ -87,7 +87,9 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
             @Override
             public void onPageSelected(int i) {
-                presenter.retrieveData(i +1);
+                //load next page
+                if (!((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).hasItemsAtPosition(i +1))
+                    presenter.retrieveData(i +1);
             }
 
             @Override
