@@ -25,8 +25,7 @@ public class ColorGridPresenter {
     public void retrieveData(int i) {
         Disposable disposable =
                 Observable.just(i)
-                        .subscribeOn(Schedulers.newThread())
-                        .flatMap(position -> respository.getColors()
+                        .flatMap(position -> respository.getColors(position)
                                 .subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .flatMap(list -> Observable.fromIterable(list).map(item -> "#" + item).toList().toObservable())

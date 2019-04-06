@@ -7,7 +7,9 @@ import java.util.List;
 import io.reactivex.Observable;
 
 public interface ColorsDataSource {
-    Observable<List<String>> getColors();
+    Observable<List<String>> getColors(int position);
 
-    boolean hasColors();
+    boolean hasColors(int position);
+
+    void addColors(List<String> list);
 }

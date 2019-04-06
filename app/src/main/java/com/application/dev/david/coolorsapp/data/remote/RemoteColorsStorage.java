@@ -20,7 +20,7 @@ import io.reactivex.Observable;
 public class RemoteColorsStorage implements ColorsDataSource {
     private static final String COOLORS_BASE_URL = "https://www.colourlovers.com/api/palettes/random";
 
-    public Observable<List<String>> getColors() {
+    public Observable<List<String>> getColors(int position) {
         List<String> list = new ArrayList<>();
         try {
             String html = Jsoup.connect(COOLORS_BASE_URL).get().html();
@@ -28,7 +28,7 @@ public class RemoteColorsStorage implements ColorsDataSource {
             Elements els = doc.getElementsByTag("hex");
             for (Element element : els) {
                 list.add(element.html());
-                Log.e(getClass().getName(), element.html());
+                Log.i(getClass().getName(), element.html());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,7 +37,11 @@ public class RemoteColorsStorage implements ColorsDataSource {
     }
 
     @Override
-    public boolean hasColors() {
+    public boolean hasColors(int position) {
         return false;
+    }
+
+    @Override
+    public void addColors(List<String> list) {
     }
 }

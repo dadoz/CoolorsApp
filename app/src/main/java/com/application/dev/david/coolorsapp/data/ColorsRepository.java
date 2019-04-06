@@ -5,6 +5,8 @@ import com.application.dev.david.coolorsapp.data.remote.Remote;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class ColorsRepository {
 
@@ -16,10 +18,16 @@ public class ColorsRepository {
         this.remoteDataSource = remoteDataSource;
     }
 
-    public Observable<List<String>> getColors() {
-        if (true || localDataSource.hasColors()) {
-            return localDataSource.getColors();
+    public Observable<List<String>> getColors(int position) {
+        if (localDataSource.hasColors(position)) {
+            return localDataSource.getColors(position);
         }
-        return remoteDataSource.getColors();
+
+        return Observable.just("")
+                .subscribeOn(Schedulers.newThread())
+                .flatMap(res_ -> remoteDataSource.getColors(position))
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(localDataSource::addColors)
+                .subscribeOn(Schedulers.newThread());
     }
 }

@@ -1,25 +1,50 @@
 package com.application.dev.david.coolorsapp.data.local;
 
 import com.application.dev.david.coolorsapp.data.ColorsDataSource;
+import com.application.dev.david.coolorsapp.models.ColorPalette;
+import com.application.dev.david.coolorsapp.models.RealmPalette;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 @Local
 public class LocalColorsStorage implements ColorsDataSource {
-    private ArrayList<String> list = new ArrayList<>();
+    private final Realm realm;
 
-    public Observable<List<String>> getColors() {
-        list.clear();
-        mock3(list);
-        return Observable.just(list);
+    public LocalColorsStorage() {
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
-    public boolean hasColors() {
-        return list.size() > 0;
+    public Observable<List<String>> getColors(int position) {
+        List<RealmPalette> realmPaletteList = realm.where(RealmPalette.class).findAll();
+        return Observable.just(realmPaletteList == null ? new ArrayList<>() :
+            realmPaletteList.get(position).getColorList()); //next get from position
+//        list.clear();
+//        mock3(list);
+//        return Observable.just(new ArrayList<String>());
+    }
+
+    @Override
+    public boolean hasColors(int position) {
+       return realm.where(RealmPalette.class).findAll().size() > position;
+    }
+
+    @Override
+    public void addColors(List<String> list) {
+        realm.executeTransaction(realm -> {
+            RealmPalette palette = realm.createObject(RealmPalette.class);
+            palette.id = 0;
+            RealmList<String> realmList = new RealmList<>();
+            realmList.addAll(list);
+            palette.colorList = realmList;
+        });
     }
 
 
