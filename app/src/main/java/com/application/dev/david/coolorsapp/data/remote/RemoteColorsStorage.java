@@ -42,6 +42,6 @@ public class RemoteColorsStorage implements ColorsDataSource {
     }
 
     @Override
-    public void addColors(List<String> list) {
+    public void addColors(List<String> list, int position) {
     }
 }

@@ -11,5 +11,5 @@ public interface ColorsDataSource {
 
     boolean hasColors(int position);
 
-    void addColors(List<String> list);
+    void addColors(List<String> list, int index);
 }

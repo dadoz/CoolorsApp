@@ -23,11 +23,11 @@ public class ColorsRepository {
             return localDataSource.getColors(position);
         }
 
-        return Observable.just("")
+        return Observable.just(position)
                 .subscribeOn(Schedulers.newThread())
-                .flatMap(res_ -> remoteDataSource.getColors(position))
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(localDataSource::addColors)
+                .flatMap(index -> remoteDataSource.getColors(position)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext(list -> localDataSource.addColors(list, index)))
                 .subscribeOn(Schedulers.newThread());
     }
 }
