@@ -36,7 +36,7 @@ public class ColorUtils {
     }
 
     public static boolean isDark(int color) {
-        return 255 - getLuminance(color) > 10;
+        return 255 - getLuminance(color) > 100;
     }
 
     public static boolean isLight(int color) {
@@ -49,5 +49,11 @@ public class ColorUtils {
 
     private static int lightenColor(int color, double fraction) {
         return (int) Math.min(color + (color * fraction), 255);
+    }
+
+    public static int gerOppositeColor(int selectedColor) {
+        return isDark(selectedColor) ?
+                lighten(selectedColor, 2.5f) :
+                darken(selectedColor, 0.4f);
     }
 }

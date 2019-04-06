@@ -20,27 +20,30 @@ import java.util.List;
 public class ColorSettingArrayListAdapter extends ArrayAdapter<String> {
 
     private final int resource;
+    private int selectedOppositeColor = -1;
     private final List<String> items;
-    private final int color;
 
     public ColorSettingArrayListAdapter(@NonNull Context context, @LayoutRes int resource,
-                                        @NonNull List<String> objects, int color) {
+                                        @NonNull List<String> objects) {
         super(context, resource, objects);
         this.resource = resource;
         this.items = objects;
-        this.color = color;
 
     }
     @Override
     public @NonNull
     View getView(int position, @Nullable View convertView,
                  @NonNull ViewGroup parent) {
-        View v =LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
         ((TextView) v.findViewById(R.id.colorSettingTextViewId)).setText(items.get(position));
-        ((TextView) v.findViewById(R.id.colorSettingTextViewId)).setTextColor(color);
         ((ImageView) v.findViewById(R.id.colorSettingImageViewId)).setImageDrawable(
                 ContextCompat.getDrawable(getContext(), getDrawableFromPosition(position)));
-        ((ImageView) v.findViewById(R.id.colorSettingImageViewId)).setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+        if (selectedOppositeColor != -1) {
+            ((TextView) v.findViewById(R.id.colorSettingTextViewId)).setTextColor(selectedOppositeColor);
+            ((ImageView) v.findViewById(R.id.colorSettingImageViewId)).setColorFilter(selectedOppositeColor,
+                    PorterDuff.Mode.SRC_ATOP);
+        }
         return v;
     }
 
@@ -59,5 +62,10 @@ public class ColorSettingArrayListAdapter extends ArrayAdapter<String> {
             default:
                 return R.drawable.ic_potions;
         }
+    }
+
+    public void setSelectedOppositeColor(int selectedOppositeColor) {
+        this.selectedOppositeColor = selectedOppositeColor;
+         notifyDataSetChanged();
     }
 }

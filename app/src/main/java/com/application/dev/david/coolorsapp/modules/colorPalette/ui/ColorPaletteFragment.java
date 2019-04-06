@@ -44,6 +44,8 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     View container;
     @BindView(R.id.colorSettingListViewId)
     ListView colorSettingListView;
+    @BindView(R.id.colorUserLayoutId)
+    View colorUserLayout;
     @BindView(R.id.colorUserTextViewId)
     TextView colorUserTextView;
     @BindView(R.id.colorUserImageViewId)
@@ -55,7 +57,7 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     private BottomSheetBehavior<View> bottomSheetBeh;
 
     //TODO move smwhere else
-    private final static String USERNAME = "david";
+    private final static String USERNAME = null;//"david";
     private List settingList = Arrays.asList("Pin Palette", "Lock Color", "Share Palette", "Delete Palette", "About and sources");
 
     @Nullable
@@ -98,6 +100,7 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
             }
         });
         presenter.retrieveData(0);
+        initDialogView();
     }
 
     @Override
@@ -117,20 +120,36 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
      * @param position
      */
     private void updateColorSettingsView(int position) {
-            int selectedColor = Color.parseColor(((ColorGridPagerAdapter) colorGridViewPager.getAdapter())
-                    .getColorList(colorGridViewPager.getCurrentItem()).get(position));
-            int selectedLightColor = ColorUtils.darken(selectedColor, 1f);
-            ((MaterialCardView) colorSettingMenuCardView).setCardBackgroundColor(selectedColor);
-            bottomSheetBeh.setState(BottomSheetBehavior.STATE_EXPANDED);
+        int selectedColor = Color.parseColor(((ColorGridPagerAdapter) colorGridViewPager.getAdapter())
+                .getColorList(colorGridViewPager.getCurrentItem()).get(position));
+        int selectedOppositeColor = ColorUtils.gerOppositeColor(selectedColor);
+
+        ((MaterialCardView) colorSettingMenuCardView).setCardBackgroundColor(selectedColor);
+        bottomSheetBeh.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+        if (USERNAME != null) {
+            colorUserTextView.setTextColor(selectedOppositeColor);
+            colorSettingSeparatorView.setBackgroundColor(selectedOppositeColor);
+        }
+
+        ((ColorSettingArrayListAdapter) colorSettingListView.getAdapter()).setSelectedOppositeColor(selectedOppositeColor);
+    }
+
+    /**
+     *
+     */
+    void initDialogView() {
+        if (USERNAME != null) {
+            colorUserLayout.setVisibility(View.VISIBLE);
             colorUserTextView.setText(USERNAME);
-            colorUserTextView.setTextColor(selectedLightColor);
             Glide.with(getActivity().getApplicationContext())
                     .load("https://api.adorable.io/avatars/" + USERNAME)
                     .circleCrop()
                     .into(colorUserImageView);
-            colorSettingSeparatorView.setBackgroundColor(selectedLightColor);
-            colorSettingListView.setAdapter(new ColorSettingArrayListAdapter(getContext(), R.layout.color_setting_item,
-                    settingList, selectedLightColor));
+        }
+        colorSettingListView.setAdapter(new ColorSettingArrayListAdapter(getContext(), R.layout.color_setting_item,
+                settingList));
+
     }
 
     @Override

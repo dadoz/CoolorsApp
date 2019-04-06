@@ -24,11 +24,11 @@ public class LocalColorsStorage implements ColorsDataSource {
 
 
     private void mock3(ArrayList<String> list) {
-        list.add("3F51B1");
+        list.add("333333");
         list.add("550033");
         list.add("FFD9aa");
         list.add("ECECcc");
-        list.add("FFFF00");
+        list.add("FFFFFF");
     }
 
     private void mock2(ArrayList<String> list) {

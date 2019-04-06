@@ -56,11 +56,13 @@ public class ColorGridPagerAdapter extends PagerAdapter {
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 String color = items.get(position).getColorList().get(i);
+                int selectedColor = Color.parseColor(color);
+                int selectedOppositeColor = ColorUtils.gerOppositeColor(selectedColor);
                 ((TextView) viewHolder.itemView.findViewById(R.id.colorTextViewId)).setText(color);
-                ((TextView) viewHolder.itemView.findViewById(R.id.colorTextViewId)).setTextColor(ColorUtils.lighten(Color.parseColor(color), 0.6f));
-                ((ImageView) viewHolder.itemView.findViewById(R.id.colorImageViewId)).setColorFilter(ColorUtils.lighten(Color.parseColor(color), 0.6f), PorterDuff.Mode.SRC_ATOP);
+                ((TextView) viewHolder.itemView.findViewById(R.id.colorTextViewId)).setTextColor(selectedOppositeColor);
+                ((ImageView) viewHolder.itemView.findViewById(R.id.colorImageViewId)).setColorFilter(selectedOppositeColor, PorterDuff.Mode.SRC_ATOP);
                 (viewHolder.itemView.findViewById(R.id.colorImageViewId)).setOnClickListener(v -> listener.onOptionClick(v, i));
-                viewHolder.itemView.setBackgroundColor(Color.parseColor(color));
+                viewHolder.itemView.setBackgroundColor(selectedColor);
             }
 
             @Override

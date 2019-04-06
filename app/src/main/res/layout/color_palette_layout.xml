@@ -26,6 +26,8 @@
             android:layout_height="match_parent">
             <LinearLayout
                 android:id="@+id/colorUserLayoutId"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:padding="@dimen/margin_16"
@@ -51,7 +53,7 @@
                 android:id="@+id/colorSettingSeparatorViewId"
                 android:layout_below="@id/colorUserLayoutId"
                 android:layout_width="match_parent"
-                android:background="@color/colorAccent"
+                android:background="@android:color/transparent"
                 android:layout_marginLeft="@dimen/margin_16"
                 android:layout_marginRight="@dimen/margin_16"
                 android:layout_height="1dp"/>
