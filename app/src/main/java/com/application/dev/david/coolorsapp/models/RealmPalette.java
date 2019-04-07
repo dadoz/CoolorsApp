@@ -8,13 +8,14 @@ import io.realm.RealmObject;
 
 public class RealmPalette extends RealmObject {
     public int id;
-    public RealmList<String> colorList;
+    private RealmList<String> colorList;
 
     public RealmPalette() {
     }
-
-    public RealmPalette(RealmList<String> list) {
-        this.colorList = list;
+    public RealmPalette(int id, List<String> list) {
+        this.id = id;
+        this.colorList = new RealmList<>();
+        colorList.addAll(list);
     }
 
     public ArrayList<String> getColorList() {

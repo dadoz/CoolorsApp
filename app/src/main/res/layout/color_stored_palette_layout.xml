@@ -3,12 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/colorStoredPaletteRecyclerViewId"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:textSize="32sp"
-        android:gravity="center_horizontal"
-        android:layout_margin="@dimen/margin_16"
-        android:text="Stored Palette"/>
+        android:layout_height="match_parent"/>
 </android.support.constraint.ConstraintLayout>

@@ -23,10 +23,10 @@ public class LocalColorsStorage implements ColorsDataSource {
 
     @Override
     public Observable<List<String>> getColors(int position) {
-        List<RealmPalette> realmPaletteList = realm.where(RealmPalette.class).equalTo("id", position).findAll();
-        return realmPaletteList == null ?
+        RealmPalette realmPalette = realm.where(RealmPalette.class).equalTo("id", position).findFirst();
+        return realmPalette == null ?
                 Observable.just(new ArrayList<>()) :
-                Observable.just(realmPaletteList.get(position).getColorList()); //next get from position
+                Observable.just(realmPalette.getColorList()); //next get from position
     }
 
     @Override
@@ -36,13 +36,7 @@ public class LocalColorsStorage implements ColorsDataSource {
 
     @Override
     public void addColors(List<String> list, int position) {
-        realm.executeTransaction(realm -> {
-            RealmPalette palette = realm.createObject(RealmPalette.class);
-            palette.id = position;
-            RealmList<String> realmList = new RealmList<>();
-            realmList.addAll(list);
-            palette.colorList = realmList;
-        });
+        realm.executeTransaction(realm -> realm.insertOrUpdate(new RealmPalette(position, list)));
     }
 
 
