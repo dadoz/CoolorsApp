@@ -14,12 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.application.dev.david.coolorsapp.R;
+import com.application.dev.david.coolorsapp.models.ColorPalette;
 
 import java.util.List;
 
 public class ColorSettingArrayListAdapter extends ArrayAdapter<String> {
 
     private final int resource;
+    private OnDialogItemClickListener listener;
     private int selectedOppositeColor = -1;
     private final List<String> items;
 
@@ -28,8 +30,9 @@ public class ColorSettingArrayListAdapter extends ArrayAdapter<String> {
         super(context, resource, objects);
         this.resource = resource;
         this.items = objects;
-
     }
+
+
     @Override
     public @NonNull
     View getView(int position, @Nullable View convertView,
@@ -44,8 +47,10 @@ public class ColorSettingArrayListAdapter extends ArrayAdapter<String> {
             ((ImageView) v.findViewById(R.id.colorSettingImageViewId)).setColorFilter(selectedOppositeColor,
                     PorterDuff.Mode.SRC_ATOP);
         }
+        v.setOnClickListener(v1 -> listener.onDialogItemClick(items, position));
         return v;
     }
+
 
     private int getDrawableFromPosition(int position) {
         switch (position) {
@@ -67,5 +72,13 @@ public class ColorSettingArrayListAdapter extends ArrayAdapter<String> {
     public void setSelectedOppositeColor(int selectedOppositeColor) {
         this.selectedOppositeColor = selectedOppositeColor;
          notifyDataSetChanged();
+    }
+
+    public void setOndialogItemClickListener(OnDialogItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnDialogItemClickListener {
+        void onDialogItemClick(List<String> list, int position);
     }
 }

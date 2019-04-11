@@ -1,9 +1,6 @@
 package com.application.dev.david.coolorsapp.data.local;
 
-import com.application.dev.david.coolorsapp.data.ColorsDataSource;
 import com.application.dev.david.coolorsapp.data.StoredPaletteDataSource;
-import com.application.dev.david.coolorsapp.models.ColorPalette;
-import com.application.dev.david.coolorsapp.models.RealmPalette;
 import com.application.dev.david.coolorsapp.models.StoredColorPalette;
 
 import java.util.ArrayList;
@@ -11,7 +8,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.realm.Realm;
-import io.realm.RealmList;
+import io.realm.RealmResults;
 
 @Local
 public class StoredPaletteStorage implements StoredPaletteDataSource {
@@ -21,26 +18,23 @@ public class StoredPaletteStorage implements StoredPaletteDataSource {
         realm = Realm.getDefaultInstance();
     }
 
-
     @Override
     public Observable<List<StoredColorPalette>> getStoredPalette() {
-//        List<RealmPalette> realmPaletteList = realm.where(StoredColorPalette.class).equalTo("id", position).findAll();
-//        return realmPaletteList == null ?
-//                Observable.just(new ArrayList<>()) :
-//                Observable.just(realmPaletteList.get(position).getColorList()); //next get from position
-        return Observable.just(new ArrayList<>());
+        RealmResults<StoredColorPalette> list = realm.where(StoredColorPalette.class).findAll();
+        return list == null ?
+                Observable.just(new ArrayList<>()) :
+                Observable.just(list);
     }
 
     @Override
     public boolean hasStoredPalette() {
-        return false; //realm.where(StoredColorPalette.class).findAll().size() > 0;
+        return realm.where(StoredColorPalette.class).findAll().size() > 0;
     }
     @Override
-    public void addStoredPalette(int id, int type) {
+    public void addStoredPalette(int id, int type, List<String> colorPaletteList) {
         realm.executeTransaction(realm -> {
-            StoredColorPalette palette = null; //realm.createObject(StoredColorPalette.class);
-            palette.colorPaletteType = type;
-            palette.colorPaletteId = id;
+            StoredColorPalette palette = new StoredColorPalette(id, type, colorPaletteList);
+            realm.insertOrUpdate(palette);
         });
     }
 }

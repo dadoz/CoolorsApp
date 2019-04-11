@@ -1,7 +1,6 @@
 package com.application.dev.david.coolorsapp.data.local;
 
 import com.application.dev.david.coolorsapp.data.ColorsDataSource;
-import com.application.dev.david.coolorsapp.models.ColorPalette;
 import com.application.dev.david.coolorsapp.models.RealmPalette;
 
 import java.util.ArrayList;
@@ -9,9 +8,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.RealmResults;
 
 @Local
 public class LocalColorsStorage implements ColorsDataSource {

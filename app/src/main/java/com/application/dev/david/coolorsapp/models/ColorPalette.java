@@ -2,10 +2,6 @@ package com.application.dev.david.coolorsapp.models;
 
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmObject;
-
 public class ColorPalette {
     private List<String> colorList;
 
@@ -17,9 +13,7 @@ public class ColorPalette {
         return colorList;
     }
 
-    public void setColorList(RealmList colorList) {
-        this.colorList = colorList;
-    }
-
-
+//    public void setColorList(RealmList colorList) {
+//        this.colorList = colorList;
+//    }
 }

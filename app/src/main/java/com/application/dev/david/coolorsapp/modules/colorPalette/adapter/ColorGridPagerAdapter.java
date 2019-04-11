@@ -61,7 +61,7 @@ public class ColorGridPagerAdapter extends PagerAdapter {
                 ((TextView) viewHolder.itemView.findViewById(R.id.colorTextViewId)).setText(color);
                 ((TextView) viewHolder.itemView.findViewById(R.id.colorTextViewId)).setTextColor(selectedOppositeColor);
                 ((ImageView) viewHolder.itemView.findViewById(R.id.colorImageViewId)).setColorFilter(selectedOppositeColor, PorterDuff.Mode.SRC_ATOP);
-                (viewHolder.itemView.findViewById(R.id.colorImageViewId)).setOnClickListener(v -> listener.onOptionClick(v, i));
+                (viewHolder.itemView.findViewById(R.id.colorImageViewId)).setOnClickListener(v -> listener.onOptionClick(items, v, i));
                 viewHolder.itemView.setBackgroundColor(selectedColor);
             }
 
@@ -103,6 +103,6 @@ public class ColorGridPagerAdapter extends PagerAdapter {
     }
 
     public interface OnOptionItemClickListener {
-        void onOptionClick(View v, int postion);
+        void onOptionClick(List<ColorPalette> items, View v, int postion);
     }
 }

@@ -16,10 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.dev.david.coolorsapp.R;
 import com.application.dev.david.coolorsapp.data.ColorsRepository;
+import com.application.dev.david.coolorsapp.data.StoredPaletteRepository;
 import com.application.dev.david.coolorsapp.data.local.LocalColorsStorage;
+import com.application.dev.david.coolorsapp.data.local.StoredPaletteStorage;
 import com.application.dev.david.coolorsapp.data.remote.RemoteColorsStorage;
 import com.application.dev.david.coolorsapp.models.ColorPalette;
 import com.application.dev.david.coolorsapp.modules.colorPalette.ColorGridPresenter;
@@ -58,7 +61,7 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
     //TODO move smwhere else
     private final static String USERNAME = null;//"david";
-    private List settingList = Arrays.asList("Pin Palette", "Lock Color", "Share Palette", "Delete Palette", "About and sources");
+    private List<String> settingList = Arrays.asList("Pin Palette", "Lock Color", "Share Palette", "Delete Palette", "About and sources");
 
     @Nullable
     @Override
@@ -72,8 +75,9 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter = new ColorGridPresenter(this, new ColorsRepository(new RemoteColorsStorage(),
-                new LocalColorsStorage()));
+        presenter = new ColorGridPresenter(this,
+                new ColorsRepository(new RemoteColorsStorage(), new LocalColorsStorage()),
+                new StoredPaletteRepository(new StoredPaletteStorage()));
         onInitView();
     }
 
@@ -107,7 +111,7 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     public void onColorGrid(List<ColorPalette> list, int requestedPos) {
         if (colorGridViewPager.getAdapter() == null) {
             colorGridViewPager.setAdapter(new ColorGridPagerAdapter(list,
-                    (v, position) -> updateColorSettingsView(position)));
+                    (items, v, position) -> updateColorSettingsView(list, position)));
             presenter.retrieveData(requestedPos +1);
         } else {
             ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).setItems(requestedPos, list);
@@ -117,9 +121,10 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
     /**
      *
+     * @param list
      * @param position
      */
-    private void updateColorSettingsView(int position) {
+    private void updateColorSettingsView(List<ColorPalette> list, int position) {
         int selectedColor = Color.parseColor(((ColorGridPagerAdapter) colorGridViewPager.getAdapter())
                 .getColorList(colorGridViewPager.getCurrentItem()).get(position));
         int selectedOppositeColor = ColorUtils.gerOppositeColor(selectedColor);
@@ -133,6 +138,8 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
         }
 
         ((ColorSettingArrayListAdapter) colorSettingListView.getAdapter()).setSelectedOppositeColor(selectedOppositeColor);
+        ((ColorSettingArrayListAdapter) colorSettingListView.getAdapter()).setOndialogItemClickListener((res_, pos_) ->
+                ColorPaletteFragment.this.onDialogItemClick(list.get(0).getColorList(), pos_));
     }
 
     /**
@@ -147,14 +154,64 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
                     .circleCrop()
                     .into(colorUserImageView);
         }
-        colorSettingListView.setAdapter(new ColorSettingArrayListAdapter(getContext(), R.layout.color_setting_item,
-                settingList));
+        colorSettingListView.setAdapter(new ColorSettingArrayListAdapter(getContext(),
+                R.layout.color_setting_item, settingList));
+    }
 
+    /**
+     *
+     * @param list
+     * @param position
+     */
+    private void onDialogItemClick(List<String> list, int position) {
+        switch (position) {
+            case 0:
+                //PIN
+                presenter.pinPalette(list);
+                break;
+            case 1:
+                //LOCK
+                presenter.lockColor(list.get(0));
+                break;
+            case 2:
+                //SHARE
+                Toast.makeText(getContext(), "share your palette", Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                //DELETE
+                presenter.deletePalette();
+                break;
+            case 4:
+                //INFO
+                break;
+        }
     }
 
     @Override
     public void onColorGridError(String error) {
         Log.e(getClass().getName(), "----" + error);
         Snackbar.make(container, error, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStoredColor(String color) {
+
+    }
+
+    @Override
+    public void onStoredColorError(String message) {
+        Log.e(getClass().getName(), message);
+
+    }
+
+    @Override
+    public void onStoredPalette(List<String> palette) {
+
+    }
+
+    @Override
+    public void onStoredPaletteError(String message) {
+        Log.e(getClass().getName(), message);
+
     }
 }
