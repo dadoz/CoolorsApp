@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.application.dev.david.coolorsapp.modules.colorPalette.ui.ColorPaletteFragment;
+import com.crashlytics.android.Crashlytics;
 
 public class MainActivity extends BaseActivity {
     @Override
