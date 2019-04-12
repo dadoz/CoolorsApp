@@ -120,13 +120,13 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     }
 
     /**
-     *
-     * @param list
-     * @param position
+     *  @param list
+     * @param pagePosition
+     * @param colorPosition
      */
-    private void updateColorSettingsView(List<ColorPalette> list, int position) {
+    private void updateColorSettingsView(List<ColorPalette> list, int colorPosition) {
         int selectedColor = Color.parseColor(((ColorGridPagerAdapter) colorGridViewPager.getAdapter())
-                .getColorList(colorGridViewPager.getCurrentItem()).get(position));
+                .getColorList(colorGridViewPager.getCurrentItem()).get(colorPosition));
         int selectedOppositeColor = ColorUtils.gerOppositeColor(selectedColor);
 
         ((MaterialCardView) colorSettingMenuCardView).setCardBackgroundColor(selectedColor);
@@ -137,9 +137,10 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
             colorSettingSeparatorView.setBackgroundColor(selectedOppositeColor);
         }
 
+        int pagePosition = colorGridViewPager.getCurrentItem();
         ((ColorSettingArrayListAdapter) colorSettingListView.getAdapter()).setSelectedOppositeColor(selectedOppositeColor);
         ((ColorSettingArrayListAdapter) colorSettingListView.getAdapter()).setOndialogItemClickListener((res_, pos_) ->
-                ColorPaletteFragment.this.onDialogItemClick(list.get(0).getColorList(), pos_));
+                ColorPaletteFragment.this.onDialogItemClick(list.get(pagePosition).getColorList(), colorPosition, pos_));
     }
 
     /**
@@ -161,17 +162,16 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     /**
      *
      * @param list
-     * @param position
      */
-    private void onDialogItemClick(List<String> list, int position) {
-        switch (position) {
+    private void onDialogItemClick(List<String> list, int colorPosition, int optionPosition) {
+        switch (optionPosition) {
             case 0:
                 //PIN
                 presenter.pinPalette(list);
                 break;
             case 1:
                 //LOCK
-                presenter.lockColor(list.get(0));
+                presenter.lockColor(list.get(colorPosition));
                 break;
             case 2:
                 //SHARE

@@ -14,11 +14,7 @@ import android.widget.TextView;
 import com.application.dev.david.coolorsapp.R;
 import com.application.dev.david.coolorsapp.models.StoredColorPalette;
 
-import org.w3c.dom.Text;
-
-import java.text.BreakIterator;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class StoredPaletteRecyclerViewAdapter extends RecyclerView.Adapter<StoredPaletteRecyclerViewAdapter.StoredPaletteViewHolder> {
         private final List<StoredColorPalette> items;
@@ -38,6 +34,7 @@ public class StoredPaletteRecyclerViewAdapter extends RecyclerView.Adapter<Store
             viewHolder.title.setText("Palette n#" + items.get(i).getColorPaletteId());
             List<String> list = items.get(i).getColorPaletteList();
             int pos = 0;
+            //palette adding
             for (String item: list) {
                 try {
                     ((TextView) viewHolder.paletteList.getChildAt(pos)).setText(item);
@@ -48,11 +45,12 @@ public class StoredPaletteRecyclerViewAdapter extends RecyclerView.Adapter<Store
                 pos ++;
             }
 
-            if (list.size() == 1) {
-                for (pos = 1; pos <= 4; pos ++) {
+            for (pos = 0; pos < 5; pos ++) {
+                if (pos >= list.size()) {
                     viewHolder.paletteList.getChildAt(pos).setVisibility(View.GONE);
                 }
             }
+
         }
 
         @Override
