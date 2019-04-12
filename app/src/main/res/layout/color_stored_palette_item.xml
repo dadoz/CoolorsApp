@@ -9,19 +9,45 @@
     android:paddingRight="@dimen/margin_16"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
-    <TextView
-        android:id="@+id/colorStoredPaletteTitleId"
-        tools:text="Title Palette"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:textSize="26sp"
-        android:textColor="@color/colorAccent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/colorStoredPaletteTitleId"
+            tools:text="Title Palette"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:textSize="26sp"
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/colorStoredEditIconId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/colorStoredShareIconId"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:src="@drawable/ic_potions"/>
+        <ImageView
+            android:id="@+id/colorStoredShareIconId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:src="@drawable/ic_share"/>
+    </RelativeLayout>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/margin_16"
         card:cardBackgroundColor="@color/colorPrimaryBlue"
-        android:layout_height="60dp">
+        card:cardCornerRadius="6dp"
+        card:cardPreventCornerOverlap="false"
+        android:layout_height="80dp">
         <LinearLayout
             android:id="@+id/colorStoredPaletteLayoutContainerId"
             android:layout_width="match_parent"
@@ -32,14 +58,14 @@
                 android:layout_width="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
                 android:gravity="center"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"/>
             <TextView
                 android:background="@color/colorAccent"
                 android:layout_width="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="match_parent"/>
@@ -47,7 +73,7 @@
                 android:background="@color/colorPrimary"
                 android:layout_width="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_height="match_parent"/>
@@ -55,14 +81,14 @@
                 android:background="@color/colorPrimaryBlue"
                 android:layout_width="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_height="match_parent"/>
             <TextView
                 android:background="@color/colorAccent"
                 android:fontFamily="@font/amatic_sc_bold"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -72,7 +98,7 @@
     <TextView
         android:id="@+id/colorStoredPaletteTimestampId"
         tools:text="at 06:10"
-        android:text="at 06:10"
+        android:text="06:10"
         android:textSize="18dp"
         android:layout_marginTop="@dimen/margin_16"
         android:layout_gravity="end"
