@@ -10,5 +10,5 @@ import io.reactivex.Observable;
 public interface StoredPaletteDataSource {
     Observable<List<StoredColorPalette>> getStoredPalette();
     boolean hasStoredPalette();
-    void addStoredPalette(int id, int type, List<String> palette);
+    void addStoredPalette(int type, List<String> palette);
 }

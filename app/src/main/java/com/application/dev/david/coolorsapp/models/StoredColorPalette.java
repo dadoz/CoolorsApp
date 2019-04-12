@@ -1,33 +1,34 @@
 package com.application.dev.david.coolorsapp.models;
 
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class StoredColorPalette extends RealmObject {
-    private RealmList<String> colorPaletteList;
-    private int colorPaletteId;
-    private int colorPaletteType; //palette or color
+    @PrimaryKey
+    private String id = UUID.randomUUID().toString();
+    private int type;
+    private RealmList<String> colorPaletteList = new RealmList<>();
 
     public StoredColorPalette() {
     }
 
-    public StoredColorPalette(int id, int type, List<String> list) {
-        this.colorPaletteId = id;
-        this.colorPaletteType = type;
-        this.colorPaletteList = new RealmList<>();
+    public StoredColorPalette( int type, List<String> list) {
+        this.type = type;
         this.colorPaletteList.addAll(list);
     }
 
     public List<String> getColorPaletteList() {
         return colorPaletteList;
     }
-    public int getColorPaletteId() {
-        return colorPaletteId;
+    public String getColorPaletteId() {
+        return id;
     }
 
-    public int getColorPaletteType() {
-        return colorPaletteType;
+    public int getType() {
+        return type;
     }
 }

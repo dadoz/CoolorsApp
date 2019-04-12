@@ -6,6 +6,7 @@ import com.application.dev.david.coolorsapp.data.local.StoredPaletteStorage;
 import com.application.dev.david.coolorsapp.models.StoredColorPalette;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,14 +25,13 @@ public class StoredPaletteRepository {
     }
 
     public Observable<Boolean> addStoredColor(String color) {
-        ArrayList<String> list = new ArrayList<>();
-        list.add(color);
-        storedPaletteStorage.addStoredPalette(Long.numberOfTrailingZeros(UUID.randomUUID().getLeastSignificantBits()), StoredPaletteType.COLOR_TYPE.ordinal(), list);
+        List<String> list = Arrays.asList(color);
+        storedPaletteStorage.addStoredPalette(StoredPaletteType.COLOR_TYPE.ordinal(), list);
         return Observable.just(true);
     }
 
     public Observable<Boolean> addStoredPalette(List<String> palette) {
-        storedPaletteStorage.addStoredPalette(Long.numberOfTrailingZeros(UUID.randomUUID().getLeastSignificantBits()), StoredPaletteType.PALETTE_TYPE.ordinal(), palette);
+        storedPaletteStorage.addStoredPalette(StoredPaletteType.PALETTE_TYPE.ordinal(), palette);
         return Observable.just(true);
     }
 }

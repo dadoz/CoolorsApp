@@ -4,10 +4,12 @@ import com.application.dev.david.coolorsapp.data.StoredPaletteDataSource;
 import com.application.dev.david.coolorsapp.models.StoredColorPalette;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 @Local
@@ -31,10 +33,21 @@ public class StoredPaletteStorage implements StoredPaletteDataSource {
         return realm.where(StoredColorPalette.class).findAll().size() > 0;
     }
     @Override
-    public void addStoredPalette(int id, int type, List<String> colorPaletteList) {
+    public void addStoredPalette(int type, List<String> colorPaletteList) {
         realm.executeTransaction(realm -> {
-            StoredColorPalette palette = new StoredColorPalette(id, type, colorPaletteList);
-            realm.insertOrUpdate(palette);
+
+            RealmResults<StoredColorPalette> list = realm.where(StoredColorPalette.class).equalTo("type", type).findAll();
+            Iterator<StoredColorPalette> resultIterator = list.iterator();
+            while (resultIterator.hasNext()) {
+                StoredColorPalette item = resultIterator.next();
+                if (item.getColorPaletteList().containsAll(colorPaletteList)) {
+                    realm.insertOrUpdate(item);
+                    return;
+                }
+            }
+
+            //new obj
+            realm.insertOrUpdate(new StoredColorPalette(type, colorPaletteList));
         });
     }
 }
