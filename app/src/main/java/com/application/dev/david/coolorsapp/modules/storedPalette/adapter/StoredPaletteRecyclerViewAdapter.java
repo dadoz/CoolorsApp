@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.application.dev.david.coolorsapp.R;
 import com.application.dev.david.coolorsapp.models.StoredColorPalette;
+import com.application.dev.david.coolorsapp.utils.DateFormatUtils;
 
 import java.util.List;
 
@@ -31,7 +33,8 @@ public class StoredPaletteRecyclerViewAdapter extends RecyclerView.Adapter<Store
 
         @Override
         public void onBindViewHolder(@NonNull StoredPaletteViewHolder viewHolder, int i) {
-            viewHolder.title.setText("Palette n#" + items.get(i).getColorPaletteId());
+            viewHolder.timestamp.setText(DateFormatUtils.formatDate(items.get(i).getCreatedAt()));
+            viewHolder.title.setText("Palette n# \n" + items.get(i).getColorPaletteId());
             List<String> list = items.get(i).getColorPaletteList();
             int pos = 0;
             //palette adding
@@ -66,7 +69,7 @@ public class StoredPaletteRecyclerViewAdapter extends RecyclerView.Adapter<Store
             public StoredPaletteViewHolder(@NonNull View itemView) {
                 super(itemView);
                 this.paletteList = itemView.findViewById(R.id.colorStoredPaletteLayoutContainerId);
-                this.timestamp= itemView.findViewById(R.id.colorStoredPaletteTimestampId);
+                this.timestamp = itemView.findViewById(R.id.colorStoredPaletteTimestampId);
                 this.title = itemView.findViewById(R.id.colorStoredPaletteTitleId);
             }
         }

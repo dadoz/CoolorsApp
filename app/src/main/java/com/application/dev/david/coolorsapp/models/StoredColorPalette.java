@@ -1,5 +1,6 @@
 package com.application.dev.david.coolorsapp.models;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ public class StoredColorPalette extends RealmObject {
     private String id = UUID.randomUUID().toString();
     private int type;
     private RealmList<String> colorPaletteList = new RealmList<>();
+    private Date createdAt = new Date();
 
     public StoredColorPalette() {
     }
@@ -30,5 +32,13 @@ public class StoredColorPalette extends RealmObject {
 
     public int getType() {
         return type;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

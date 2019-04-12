@@ -38,6 +38,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.support.design.widget.BottomSheetBehavior.STATE_COLLAPSED;
+import static android.support.design.widget.BottomSheetBehavior.STATE_EXPANDED;
+
 
 public class ColorPaletteFragment extends Fragment implements ColorGridView {
     private ColorGridPresenter presenter;
@@ -121,7 +124,6 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
     /**
      *  @param list
-     * @param pagePosition
      * @param colorPosition
      */
     private void updateColorSettingsView(List<ColorPalette> list, int colorPosition) {
@@ -130,7 +132,7 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
         int selectedOppositeColor = ColorUtils.gerOppositeColor(selectedColor);
 
         ((MaterialCardView) colorSettingMenuCardView).setCardBackgroundColor(selectedColor);
-        bottomSheetBeh.setState(BottomSheetBehavior.STATE_EXPANDED);
+        bottomSheetBeh.setState(STATE_EXPANDED);
 
         if (USERNAME != null) {
             colorUserTextView.setTextColor(selectedOppositeColor);
@@ -167,10 +169,12 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
         switch (optionPosition) {
             case 0:
                 //PIN
+                bottomSheetBeh.setState(STATE_COLLAPSED);
                 presenter.pinPalette(list);
                 break;
             case 1:
                 //LOCK
+                bottomSheetBeh.setState(STATE_COLLAPSED);
                 presenter.lockColor(list.get(colorPosition));
                 break;
             case 2:
@@ -179,6 +183,7 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
                 break;
             case 3:
                 //DELETE
+                bottomSheetBeh.setState(STATE_COLLAPSED);
                 presenter.deletePalette();
                 break;
             case 4:

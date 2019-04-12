@@ -40,7 +40,6 @@ public class StoredPaletteFragment extends Fragment implements StoredPaletteView
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.color_stored_palette_layout, container, false);
         ButterKnife.bind(this, view);
-
         return view;
     }
 
@@ -49,7 +48,6 @@ public class StoredPaletteFragment extends Fragment implements StoredPaletteView
         super.onViewCreated(view, savedInstanceState);
         presenter = new StoredPalettePresenter(this, new StoredPaletteRepository(new StoredPaletteStorage()));
         presenter.retrieveData();
-
     }
 
     @Override
@@ -61,6 +59,5 @@ public class StoredPaletteFragment extends Fragment implements StoredPaletteView
     @Override
     public void onStoredPaletteError(String error) {
         Log.e(getClass().getName(), error);
-
     }
 }

@@ -11,6 +11,7 @@ import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 @Local
 public class StoredPaletteStorage implements StoredPaletteDataSource {
@@ -22,7 +23,7 @@ public class StoredPaletteStorage implements StoredPaletteDataSource {
 
     @Override
     public Observable<List<StoredColorPalette>> getStoredPalette() {
-        RealmResults<StoredColorPalette> list = realm.where(StoredColorPalette.class).findAll();
+        RealmResults<StoredColorPalette> list = realm.where(StoredColorPalette.class).findAll().sort("createdAt", Sort.DESCENDING);
         return list == null ?
                 Observable.just(new ArrayList<>()) :
                 Observable.just(list);
@@ -35,11 +36,8 @@ public class StoredPaletteStorage implements StoredPaletteDataSource {
     @Override
     public void addStoredPalette(int type, List<String> colorPaletteList) {
         realm.executeTransaction(realm -> {
-
             RealmResults<StoredColorPalette> list = realm.where(StoredColorPalette.class).equalTo("type", type).findAll();
-            Iterator<StoredColorPalette> resultIterator = list.iterator();
-            while (resultIterator.hasNext()) {
-                StoredColorPalette item = resultIterator.next();
+            for (StoredColorPalette item : list) {
                 if (item.getColorPaletteList().containsAll(colorPaletteList)) {
                     realm.insertOrUpdate(item);
                     return;

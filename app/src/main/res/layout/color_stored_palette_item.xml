@@ -15,9 +15,11 @@
         android:orientation="horizontal">
         <TextView
             android:id="@+id/colorStoredPaletteTitleId"
-            tools:text="Title Palette"
+            tools:text="Title Palette blal lb la dhs  ladfk lsdi lksd isld"
+            android:layout_toLeftOf="@+id/colorStoredEditIconId"
             android:fontFamily="@font/amatic_sc_bold"
             android:textSize="26sp"
+            android:maxLines="2"
             android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
