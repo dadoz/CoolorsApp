@@ -2,5 +2,8 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/amatic_sc_bold</item>
+        <item>@font/yanone_kaffeesatz</item>
+        <item>@font/yanone_kaffeesatz_extralight</item>
+        <item>@font/yanone_kaffeesatz_light</item>
     </array>
 </resources>
