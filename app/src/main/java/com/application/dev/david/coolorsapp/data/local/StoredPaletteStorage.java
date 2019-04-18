@@ -48,4 +48,22 @@ public class StoredPaletteStorage implements StoredPaletteDataSource {
             realm.insertOrUpdate(new StoredColorPalette(type, colorPaletteList));
         });
     }
+
+    public Observable<Boolean> editStoredPaletteName(String id, String label) {
+        realm.executeTransaction(realm -> {
+            StoredColorPalette storedColorPalette = realm.where(StoredColorPalette.class).equalTo("id", id).findFirst();
+            if (storedColorPalette != null)
+                storedColorPalette.setPaletteLabel(label);
+        });
+        return Observable.just(true);
+    }
+
+    public Observable<Boolean> deleteStoredPalette(String id) {
+        realm.executeTransaction(realm -> {
+            StoredColorPalette storedColorPalette = realm.where(StoredColorPalette.class).equalTo("id", id).findFirst();
+            if (storedColorPalette != null)
+                storedColorPalette.deleteFromRealm();
+        });
+        return Observable.just(true);
+    }
 }

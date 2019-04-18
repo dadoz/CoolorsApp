@@ -20,6 +20,12 @@ public class StoredPaletteRepository {
         this.storedPaletteStorage = storedPaletteStorage;
     }
 
+    public Observable<Boolean> editStoredPaletteName(String paletteId, String label) {
+        return storedPaletteStorage.editStoredPaletteName(paletteId, label);
+    }
+    public Observable<Boolean> deleteStoredPalette(String paletteId) {
+        return storedPaletteStorage.deleteStoredPalette(paletteId);
+    }
     public Observable<List<StoredColorPalette>> getStoredPalette() {
         return storedPaletteStorage.getStoredPalette();
     }

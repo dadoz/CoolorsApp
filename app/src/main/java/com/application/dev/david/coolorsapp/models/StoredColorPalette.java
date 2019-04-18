@@ -14,6 +14,7 @@ public class StoredColorPalette extends RealmObject {
     private int type;
     private RealmList<String> colorPaletteList = new RealmList<>();
     private Date createdAt = new Date();
+    private String label;
 
     public StoredColorPalette() {
     }
@@ -40,5 +41,9 @@ public class StoredColorPalette extends RealmObject {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setPaletteLabel(String label) {
+        this.label = label;
     }
 }

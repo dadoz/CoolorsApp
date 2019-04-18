@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface StoredPaletteView {
     void onStoredPaletteRetrieved(List<StoredColorPalette> list);
+    void onStoredPaletteEditedName(boolean result);
+    void onStoredPaletteDeleted(boolean result);
+    void onStoredPaletteEditedNameError(String error);
+    void onStoredPaletteDeletedError(String error);
     void onStoredPaletteError(String error);
 
 }

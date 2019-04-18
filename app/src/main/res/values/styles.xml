@@ -9,13 +9,13 @@
     </style>
     <!-- styles.xml -->
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:fontFamily">@font/yanone_kaffeesatz</item>
+        <item name="android:fontFamily">@font/yanone_kaffeesatz_light</item>
         <item name="android:color">@color/colorPrimaryBlue</item>
     </style>
 
     <style name="Widget.BottomNavigationView"
         parent="Widget.Design.BottomNavigationView">
-        <item name="fontFamily">@font/yanone_kaffeesatz</item>
+        <item name="fontFamily">@font/yanone_kaffeesatz_light</item>
     </style>
 
 </resources>

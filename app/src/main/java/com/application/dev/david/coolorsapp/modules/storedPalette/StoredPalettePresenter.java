@@ -25,4 +25,21 @@ public class StoredPalettePresenter {
                         .subscribe(view::onStoredPaletteRetrieved,
                                 error -> view.onStoredPaletteError(error.getMessage()));
     }
+
+    public void editPaletteName(String paletteId, String label) {
+        respository.editStoredPaletteName(paletteId, label)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(view::onStoredPaletteEditedName,
+                        error -> view.onStoredPaletteEditedNameError(error.getMessage()));
+    }
+
+    public void deletePalette(String paletteId) {
+        respository.deleteStoredPalette(paletteId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(view::onStoredPaletteDeleted,
+                        error -> view.onStoredPaletteDeletedError(error.getMessage()));
+
+    }
 }
