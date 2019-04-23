@@ -64,7 +64,7 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
     //TODO move smwhere else
     private final static String USERNAME = null;//"david";
-    private List<String> settingList = Arrays.asList("Pin Palette", "Lock Color", "Share Palette", "Delete Palette", "About and sources");
+    private List<String> settingList = Arrays.asList("Pin Palette", "Pin this Color", "Share Palette", "Delete Palette", "About and sources");
 
     @Nullable
     @Override
@@ -141,8 +141,9 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
 
         int pagePosition = colorGridViewPager.getCurrentItem();
         ((ColorSettingArrayListAdapter) colorSettingListView.getAdapter()).setSelectedOppositeColor(selectedOppositeColor);
-        ((ColorSettingArrayListAdapter) colorSettingListView.getAdapter()).setOndialogItemClickListener((res_, pos_) ->
-                ColorPaletteFragment.this.onDialogItemClick(list.get(pagePosition).getColorList(), colorPosition, pos_));
+        ((ColorSettingArrayListAdapter) colorSettingListView.getAdapter())
+                .setOndialogItemClickListener((res_, pos_) -> ColorPaletteFragment.this
+                        .onDialogItemClick(list.get(pagePosition).getColorList(), colorPosition, pos_));
     }
 
     /**
@@ -169,11 +170,13 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
         switch (optionPosition) {
             case 0:
                 //PIN
+                Toast.makeText(getContext(), "Palette has been pinned", Toast.LENGTH_SHORT).show();
                 bottomSheetBeh.setState(STATE_COLLAPSED);
                 presenter.pinPalette(list);
                 break;
             case 1:
                 //LOCK
+                Toast.makeText(getContext(), "Color has been pinned", Toast.LENGTH_SHORT).show();
                 bottomSheetBeh.setState(STATE_COLLAPSED);
                 presenter.lockColor(list.get(colorPosition));
                 break;
@@ -183,8 +186,13 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
                 break;
             case 3:
                 //DELETE
+                Toast.makeText(getContext(), "Palette has been removed", Toast.LENGTH_SHORT).show();
                 bottomSheetBeh.setState(STATE_COLLAPSED);
-                presenter.deletePalette();
+//                int removePagePosition = colorGridViewPager.getCurrentItem();
+//                colorGridViewPager.setCurrentItem(colorGridViewPager.getCurrentItem() - 1, true);
+
+                ColorPalette colorPalette = ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).getItemsAt(colorGridViewPager.getCurrentItem());
+                presenter.deletePalette(colorPalette);
                 break;
             case 4:
                 //INFO

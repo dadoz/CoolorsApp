@@ -1,6 +1,8 @@
 package com.application.dev.david.coolorsapp.data;
 
 
+import com.application.dev.david.coolorsapp.models.ColorPalette;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,4 +14,6 @@ public interface ColorsDataSource {
     boolean hasColors(int position);
 
     void addColors(List<String> list, int index);
+
+    Observable<Boolean> removeColor(ColorPalette colorPalette);
 }

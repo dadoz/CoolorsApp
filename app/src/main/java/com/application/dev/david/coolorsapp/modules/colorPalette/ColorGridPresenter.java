@@ -1,6 +1,7 @@
 package com.application.dev.david.coolorsapp.modules.colorPalette;
 
 import android.support.v4.util.Pair;
+import android.util.Log;
 
 import com.application.dev.david.coolorsapp.data.ColorsRepository;
 import com.application.dev.david.coolorsapp.data.StoredPaletteRepository;
@@ -32,7 +33,7 @@ public class ColorGridPresenter {
                                 .subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .flatMap(list -> Observable.fromIterable(list).map(item -> "#" + item).toList().toObservable())
-                                .map(ColorPalette::new)
+                                .map(list -> new ColorPalette(position, list))
                                 .doOnError(Throwable::printStackTrace)
                                 .toList().toObservable()
                                 .map(list -> new Pair<>(list, position))
@@ -42,8 +43,13 @@ public class ColorGridPresenter {
                                 error -> view.onColorGridError(error.getMessage()));
     }
 
-    public void deletePalette() {
-
+    public void deletePalette(ColorPalette colorPalette) {
+        Disposable disposable =
+                respository.removeColorPalette(colorPalette)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.newThread())
+                        .subscribe(res -> Log.e(getClass().getName(), "hey"),
+                                error -> view.onColorGridError(error.getMessage()));
     }
 
     public void lockColor(String color) {

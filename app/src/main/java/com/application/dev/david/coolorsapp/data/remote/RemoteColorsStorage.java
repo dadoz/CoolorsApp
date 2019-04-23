@@ -3,6 +3,7 @@ package com.application.dev.david.coolorsapp.data.remote;
 import android.util.Log;
 
 import com.application.dev.david.coolorsapp.data.ColorsDataSource;
+import com.application.dev.david.coolorsapp.models.ColorPalette;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -43,5 +44,10 @@ public class RemoteColorsStorage implements ColorsDataSource {
 
     @Override
     public void addColors(List<String> list, int position) {
+    }
+
+    @Override
+    public Observable<Boolean> removeColor(ColorPalette colorPalette) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 }

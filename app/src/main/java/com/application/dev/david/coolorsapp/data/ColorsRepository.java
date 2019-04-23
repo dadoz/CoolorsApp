@@ -1,6 +1,7 @@
 package com.application.dev.david.coolorsapp.data;
 import com.application.dev.david.coolorsapp.data.local.Local;
 import com.application.dev.david.coolorsapp.data.remote.Remote;
+import com.application.dev.david.coolorsapp.models.ColorPalette;
 
 import java.util.List;
 
@@ -29,5 +30,9 @@ public class ColorsRepository {
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(list -> localDataSource.addColors(list, index)))
                 .subscribeOn(Schedulers.newThread());
+    }
+
+    public Observable<Boolean> removeColorPalette(ColorPalette colorPalette) {
+        return localDataSource.removeColor(colorPalette);
     }
 }

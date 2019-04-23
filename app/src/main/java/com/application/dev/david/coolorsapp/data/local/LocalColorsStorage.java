@@ -1,7 +1,7 @@
 package com.application.dev.david.coolorsapp.data.local;
 
 import com.application.dev.david.coolorsapp.data.ColorsDataSource;
-import com.application.dev.david.coolorsapp.models.RealmPalette;
+import com.application.dev.david.coolorsapp.models.ColorPalette;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class LocalColorsStorage implements ColorsDataSource {
 
     @Override
     public Observable<List<String>> getColors(int position) {
-        RealmPalette realmPalette = realm.where(RealmPalette.class).equalTo("id", position).findFirst();
+        ColorPalette realmPalette = realm.where(ColorPalette.class).like("id", "*_" + position).findFirst();
         return realmPalette == null ?
                 Observable.just(new ArrayList<>()) :
                 Observable.just(realmPalette.getColorList()); //next get from position
@@ -27,12 +27,18 @@ public class LocalColorsStorage implements ColorsDataSource {
 
     @Override
     public boolean hasColors(int position) {
-       return realm.where(RealmPalette.class).findAll().size() > position;
+       return realm.where(ColorPalette.class).findAll().size() > position;
     }
 
     @Override
     public void addColors(List<String> list, int position) {
-        realm.executeTransaction(realm -> realm.insertOrUpdate(new RealmPalette(position, list)));
+        realm.executeTransaction(realm -> realm.insertOrUpdate(new ColorPalette(position, list)));
+    }
+
+    @Override
+    public Observable<Boolean> removeColor(ColorPalette colorPalette) {
+        realm.executeTransaction(realm -> realm.where(ColorPalette.class).equalTo("id", colorPalette.getId()));
+        return Observable.just(true);
     }
 
 
