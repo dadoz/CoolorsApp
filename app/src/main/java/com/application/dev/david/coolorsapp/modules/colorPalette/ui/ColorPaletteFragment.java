@@ -2,12 +2,14 @@ package com.application.dev.david.coolorsapp.modules.colorPalette.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.card.MaterialCardView;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.SupportActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -99,7 +101,10 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
                 //load next page
                 if (!((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).hasItemsAtPosition(i +1))
                     presenter.retrieveData(i +1);
+                //udpate color on toolbar
+                updateToolbarBackgroundColor(((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).getItemsAt(i).getColorList().get(0));
             }
+
 
             @Override
             public void onPageScrollStateChanged(int i) {
@@ -108,6 +113,17 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
         });
         presenter.retrieveData(0);
         initDialogView();
+    }
+
+    /**
+     *
+     * @param color
+     */
+    private void updateToolbarBackgroundColor(String color) {
+        if (getActivity() != null) {
+            new Handler().postDelayed(() -> getActivity()
+                    .findViewById(R.id.toolbarId).setBackgroundColor(Color.parseColor(color)), 200);
+        }
     }
 
     @Override
@@ -188,11 +204,11 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
                 //DELETE
                 Toast.makeText(getContext(), "Palette has been removed", Toast.LENGTH_SHORT).show();
                 bottomSheetBeh.setState(STATE_COLLAPSED);
-//                int removePagePosition = colorGridViewPager.getCurrentItem();
-//                colorGridViewPager.setCurrentItem(colorGridViewPager.getCurrentItem() - 1, true);
-
-                ColorPalette colorPalette = ((ColorGridPagerAdapter) colorGridViewPager.getAdapter()).getItemsAt(colorGridViewPager.getCurrentItem());
+                int currentPagePosition = colorGridViewPager.getCurrentItem();
+                ColorGridPagerAdapter colorAdapter = ((ColorGridPagerAdapter) colorGridViewPager.getAdapter());
+                ColorPalette colorPalette = colorAdapter.getItemsAt(currentPagePosition);
                 presenter.deletePalette(colorPalette);
+                colorAdapter.removeItemsAt(currentPagePosition);
                 break;
             case 4:
                 //INFO
@@ -226,5 +242,10 @@ public class ColorPaletteFragment extends Fragment implements ColorGridView {
     public void onStoredPaletteError(String message) {
         Log.e(getClass().getName(), message);
 
+    }
+
+    @Override
+    public void onDeletedColorPalette(Boolean res) {
+        Toast.makeText(getContext(), "Delete your palette", Toast.LENGTH_SHORT).show();
     }
 }

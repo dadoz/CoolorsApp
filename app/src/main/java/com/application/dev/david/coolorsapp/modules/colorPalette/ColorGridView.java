@@ -13,4 +13,6 @@ public interface ColorGridView {
 
     void onStoredPalette(List<String> palette);
     void onStoredPaletteError(String message);
+
+    void onDeletedColorPalette(Boolean res);
 }

@@ -40,9 +40,7 @@ public class StoredPaletteRecyclerViewAdapter extends RecyclerView.Adapter<Store
     public void onBindViewHolder(@NonNull StoredPaletteViewHolder viewHolder, int i) {
         viewHolder.timestamp.setText(DateFormatUtils.formatDate(items.get(i).getCreatedAt()));
         viewHolder.title.setText("Palette n# \n" + items.get(i).getColorPaletteId());
-        viewHolder.colorStoredEditIcon.setColorFilter(ContextCompat.getColor(viewHolder.itemView.getContext(),
-                R.color.colorPrimaryRed), PorterDuff.Mode.SRC_ATOP);
-        viewHolder.colorStoredEditIcon.setOnClickListener(v -> listener.onStoredItemOptionClick(v, i));
+        viewHolder.itemView.setOnClickListener(v -> listener.onStoredItemOptionClick(v, i));
         List<String> list = items.get(i).getColorPaletteList();
         int pos = 0;
         //palette adding
@@ -73,14 +71,12 @@ public class StoredPaletteRecyclerViewAdapter extends RecyclerView.Adapter<Store
         private final TextView timestamp;
         public TextView title;
         public ViewGroup paletteList;
-        ImageView colorStoredEditIcon;
 
         public StoredPaletteViewHolder(@NonNull View itemView) {
             super(itemView);
             this.paletteList = itemView.findViewById(R.id.colorStoredPaletteLayoutContainerId);
             this.timestamp = itemView.findViewById(R.id.colorStoredPaletteTimestampId);
             this.title = itemView.findViewById(R.id.colorStoredPaletteTitleId);
-            this.colorStoredEditIcon = itemView.findViewById(R.id.colorStoredMoreIconId);
         }
     }
 

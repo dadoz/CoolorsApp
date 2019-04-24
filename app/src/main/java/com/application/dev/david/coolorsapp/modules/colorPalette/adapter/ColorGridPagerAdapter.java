@@ -39,6 +39,11 @@ public class ColorGridPagerAdapter extends PagerAdapter {
         return view;
     }
 
+    /**
+     *
+     * @param view
+     * @param position
+     */
     private void initView(View view, int position) {
         RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setHasFixedSize(true);
@@ -105,6 +110,12 @@ public class ColorGridPagerAdapter extends PagerAdapter {
     public void removeItemsAt(int requestedPos) {
         items.remove(requestedPos);
         notifyDataSetChanged();
+
+    }
+
+    @Override
+    public int getItemPosition(Object object){
+        return PagerAdapter.POSITION_NONE;
     }
 
     public ColorPalette getItemsAt(int currentItem) {

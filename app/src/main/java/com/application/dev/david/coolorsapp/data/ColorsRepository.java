@@ -28,7 +28,7 @@ public class ColorsRepository {
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(index -> remoteDataSource.getColors(position)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext(list -> localDataSource.addColors(list, index)))
+                        .doOnNext(list -> localDataSource.addColors((List<String>) list, index)))
                 .subscribeOn(Schedulers.newThread());
     }
 

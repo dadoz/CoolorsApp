@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.application.dev.david.coolorsapp.modules.colorPalette.ui.ColorPaletteFragment;
 import com.application.dev.david.coolorsapp.modules.storedPalette.ui.StoredPaletteFragment;
@@ -16,7 +17,6 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
     @BindView(R.id.toolbarId)
     Toolbar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

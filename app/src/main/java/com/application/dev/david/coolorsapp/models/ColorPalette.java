@@ -19,7 +19,7 @@ public class ColorPalette extends RealmObject {
         colorList.addAll(list);
     }
 
-    public ArrayList<String> getColorList() {
+    public List<String> getColorList() {
         ArrayList<String> list = new ArrayList<>();
         list.addAll(colorList);
         return list;

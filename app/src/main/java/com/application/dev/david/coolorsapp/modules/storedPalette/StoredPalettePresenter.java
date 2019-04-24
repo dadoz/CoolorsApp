@@ -27,7 +27,8 @@ public class StoredPalettePresenter {
     }
 
     public void editPaletteName(String paletteId, String label) {
-        respository.editStoredPaletteName(paletteId, label)
+        Disposable disposable =
+                respository.editStoredPaletteName(paletteId, label)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(view::onStoredPaletteEditedName,
@@ -35,7 +36,8 @@ public class StoredPalettePresenter {
     }
 
     public void deletePalette(String paletteId) {
-        respository.deleteStoredPalette(paletteId)
+        Disposable disposable =
+                respository.deleteStoredPalette(paletteId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(view::onStoredPaletteDeleted,

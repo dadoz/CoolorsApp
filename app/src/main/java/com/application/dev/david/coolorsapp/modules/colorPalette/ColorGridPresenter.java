@@ -9,6 +9,7 @@ import com.application.dev.david.coolorsapp.models.ColorPalette;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,8 +35,12 @@ public class ColorGridPresenter {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .flatMap(list -> Observable.fromIterable(list).map(item -> "#" + item).toList().toObservable())
                                 .map(list -> new ColorPalette(position, list))
+                                .map(res -> {
+                                    ArrayList<ColorPalette> list = new ArrayList<>();
+                                    list.add(res);
+                                    return list;
+                                })
                                 .doOnError(Throwable::printStackTrace)
-                                .toList().toObservable()
                                 .map(list -> new Pair<>(list, position))
                         )
                         .observeOn(AndroidSchedulers.mainThread())
@@ -48,7 +53,7 @@ public class ColorGridPresenter {
                 respository.removeColorPalette(colorPalette)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.newThread())
-                        .subscribe(res -> Log.e(getClass().getName(), "hey"),
+                        .subscribe(view::onDeletedColorPalette,
                                 error -> view.onColorGridError(error.getMessage()));
     }
 
@@ -59,8 +64,6 @@ public class ColorGridPresenter {
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(res_ -> view.onStoredColor(color),
                         error -> view.onStoredColorError(error.getMessage()));
-
-
 
     }
 
