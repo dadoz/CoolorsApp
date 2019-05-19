@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,10 +45,9 @@ public class StoredPaletteFragment extends Fragment implements StoredPaletteView
     @BindView(R.id.colorStoredPaletteRecyclerViewId)
     RecyclerView colorStoredPaletteRecyclerView;
     @BindView(R.id.colorStoredPaletteOptionsListViewId)
-    ListView colorStoredPaletteOptionsListView;
+    GridView colorStoredPaletteOptionsListView;
     @BindView(R.id.colorStoredPaletteOptionsMenuCardViewId)
     View colorStoredPaletteOptionsMenuCardView;
-    private BottomSheetBehavior<View> colorStoredPaletteOptionsBottomBehavior;
     private List<String> settingList = Arrays.asList("Rename", "Share Palette", "Delete");
 
     @Nullable
@@ -62,7 +62,6 @@ public class StoredPaletteFragment extends Fragment implements StoredPaletteView
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        colorStoredPaletteOptionsBottomBehavior =  BottomSheetBehavior.from(colorStoredPaletteOptionsMenuCardView);
         presenter = new StoredPalettePresenter(this, new StoredPaletteRepository(new StoredPaletteStorage()));
         presenter.retrieveData();
     }
@@ -71,7 +70,8 @@ public class StoredPaletteFragment extends Fragment implements StoredPaletteView
     public void onStoredPaletteRetrieved(List<StoredColorPalette> list) {
         colorStoredPaletteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         colorStoredPaletteRecyclerView.setAdapter(new StoredPaletteRecyclerViewAdapter(list, (v, position) -> {
-            colorStoredPaletteOptionsBottomBehavior.setState(STATE_EXPANDED);
+//            colorStoredPaletteOptionsBottomBehavior.setState(STATE_EXPANDED);
+            colorStoredPaletteOptionsMenuCardView.setVisibility(View.VISIBLE);
             colorStoredPaletteOptionsListView.setAdapter(new StoredPaletteOptionsArrayListAdapter(getContext(),
                     R.layout.stored_palette_option_item, settingList, pos_ -> this.checkPosition(list.get(position).getColorPaletteId(), pos_)));
         }));
@@ -98,7 +98,9 @@ public class StoredPaletteFragment extends Fragment implements StoredPaletteView
     }
 
     private void checkPosition(String paletteId, int position) {
-        colorStoredPaletteOptionsBottomBehavior.setState(STATE_COLLAPSED);
+        colorStoredPaletteOptionsMenuCardView.setVisibility(View.GONE);
+
+//        colorStoredPaletteOptionsBottomBehavior.setState(STATE_COLLAPSED);
 
         switch (position) {
             case 0:

@@ -14,17 +14,16 @@
         android:id="@+id/colorStoredPaletteOptionsMenuCardViewId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorPrimaryDark"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="0dp"
-        app:cardCornerRadius="6dp"
-        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+        app:cardBackgroundColor="@color/colorPrimary"
+        android:layout_margin="@dimen/margin_16"
+        app:cardCornerRadius="6dp">
 
-        <ListView
-            android:divider="@null"
-            android:dividerHeight="0dp"
+        <GridView
             android:id="@+id/colorStoredPaletteOptionsListViewId"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:numColumns="3" />
     </android.support.design.card.MaterialCardView>
 </android.support.design.widget.CoordinatorLayout>
